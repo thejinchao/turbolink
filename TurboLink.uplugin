@@ -1,0 +1,23 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "TurboLink",
+	"Description": "",
+	"Category": "Other",
+	"CreatedBy": "thejinchao",
+	"CreatedByURL": "https://github.com/thejinchao/turbolink",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"SupportURL": "",
+	"CanContainContent": true,
+	"IsBetaVersion": false,
+	"Installed": false,
+	"Modules": [
+		{
+			"Name": "TurboLinkGrpc",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		}
+	]
+}
