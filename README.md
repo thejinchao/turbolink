@@ -26,8 +26,7 @@ In the `tools` directory of the plugin, there is a batch file called `generate_c
 ```
 generate_code.cmd <proto_file> <package_name> <output_path>
 ```
-For example, there is a grpc protocol file named `hello.proto`, package name is `Greeter`, Use the following command to generate code files:
-```
-generate_code.cmd hello.proto Greeter .\output_path
-```
-Copy generated directory `Private` and `Public` from `output_path` to `YourProject/Plugins/TurboLink/Source/TurboLinkGrpc`.
+For example, there is a grpc protocol file named `hello.proto`, package name is `Greeter`, Use the following steps to generate code files:
+1. Generate code file with command line: `generate_code.cmd hello.proto Greeter .\output_path`
+2. Copy generated directory `Private` and `Public` from `output_path` to `YourProject/Plugins/TurboLink/Source/TurboLinkGrpc`.
+3. Re-generate your project solution and build it.
