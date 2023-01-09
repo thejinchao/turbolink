@@ -7,7 +7,7 @@ TurboLink is an unreal engine plugin enables [Google gRPC](https://grpc.io/) wor
 * Call rpc functions asynchronously in C++ and blueprint.
 * Support lambda callback and delegate function in C++.
 * Support async blueprint node to quickly call rpc functions in blueprint.
-* Support streaming methods.
+* Support streaming grpc methods.
 * Support TLS connection.
 * A protoc-plugin code generation tool for generating protobuf code wrappers that can be used directly in blueprints.
 * All public header files in the plugin do not include grpc and protobuf library header files, so that your project avoids including too many header files.
@@ -35,10 +35,10 @@ For example, there is a grpc protocol file named `hello.proto`, package name is 
 3. Re-generate your project solution and build it.
 
 ### Config service endpoint
-In UE editor, you can open the project setting window "TurboLink Grpc/Services Config" to set the server endpoint to different grpc services.
-![project-setting](https://github.com/thejinchao/turbolink/wiki/image/project-config.png)
+Open the project setting window (TurboLink Grpc/Services Config) to set the server endpoint to different grpc services.  
+![project-setting](https://github.com/thejinchao/turbolink/wiki/image/project-config.png)  
 For services that do not have an endpoint set, turbolink will use the default endpoint to connect.
 
 ### Config TLS certificate
-Turbolink support server-side tls connection type. If you want to enable this function, you need set the server certificate file(PEM format) in the settings windows. Because UE's setting window only supports single-line text, you need to replace the newline character in the certificate file with '\n'.
+Turbolink support server-side tls connection type. If you want to enable this function, you need set the server certificate file(PEM format) in the settings windows (TurboLink Grpc/Services Config). Because UE's setting window only supports single-line text, you need to replace the newline character in the certificate file with '\n'.  
 ![tls-setting](https://github.com/thejinchao/turbolink/wiki/image/tls-config.png)
