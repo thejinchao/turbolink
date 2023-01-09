@@ -9,7 +9,7 @@ TurboLink is an unreal engine plugin enables [Google gRPC](https://grpc.io/) wor
 * Support async blueprint node to quickly call rpc functions in blueprint.
 * Support streaming grpc methods.
 * Support TLS connection.
-* A protoc-plugin code generation tool for generating protobuf code wrappers that can be used directly in blueprints.
+* A [protoc-plugin code generation tool](https://github.com/thejinchao/protoc-gen-turbolink) for generating protobuf code wrappers that can be used directly in blueprints.
 * All public header files in the plugin do not include grpc and protobuf library header files, so that your project avoids including too many header files.
 
 ## Example
@@ -61,6 +61,8 @@ In the proto file above, package name is `Greeter`, Use the following steps to g
 1. Generate code file with command line: `generate_code.cmd hello.proto Greeter .\output_path`
 2. Copy generated directory `Private` and `Public` from `output_path` to `YourProject/Plugins/TurboLink/Source/TurboLinkGrpc`.
 3. Re-generate your project solution and build it.
+
+This batch file generates code through a protoc plugin named `protoc-gen-turbolink`, the code of this plugin can be found [here](https://github.com/thejinchao/protoc-gen-turbolink)
 
 ### 2. Connect to gRPC service
 Use the following c++ code to link to the gRPC services.
