@@ -37,7 +37,7 @@ Turbolink support server-side tls connection type. If you want to enable this fu
 
 ### 1. Generate code from grpc file
 For example, a simple grpc service `hello.proto` is as follows:
-```
+```protobuf
 syntax = "proto3";
 
 package Greeter;
@@ -64,7 +64,7 @@ In the proto file above, package name is `Greeter`, Use the following steps to g
 
 ### 2. Connect to gRPC service
 Use the following c++ code to link to the gRPC services.
-```
+```cpp
 UTurboLinkGrpcManager* TurboLinkManager = UTurboLinkGrpcUtilities::GetTurboLinkGrpcManager();
 
 UGreeterService* GreeterService = Cast<UGreeterService>(TurboLinkManager->MakeService("GreeterService"));
@@ -77,12 +77,12 @@ There are several different ways of calling grpc methods.
 
 #### 3.1 Client object
 First create the client object, and set the delegate function.
-```
+```cpp
 GreeterServiceClient = GreeterService->MakeClient();
 GreeterServiceClient->OnHelloResponse.AddUniqueDynamic(this, &UTurboLinkDemoCppTest::OnHelloResponse);
 ```
 Then create a context object and call the grpc method.
-```
+```cpp
 FGrpcContextHandle CtxHello = GreeterServiceClient->InitHello();
 
 FGrpcGreeterHelloRequest HelloRequest;
@@ -94,7 +94,7 @@ The above functions can be called directly in the blueprint.
 
 #### 3.2 Lambda callback
 If the grpc call is one-off, you can use a lambda function as a callback after service connected.
-```
+```cpp
 FGrpcGreeterHelloRequest HelloRequest;
 HelloRequest.Name = TEXT("Neo");
 
