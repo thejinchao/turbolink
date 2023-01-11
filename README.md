@@ -1,16 +1,17 @@
 # TurboLink
 ![logo](https://github.com/thejinchao/turbolink/wiki/image/TurboLink.png)  
-TurboLink is an unreal engine plugin enables [Google gRPC](https://grpc.io/) work with [Unreal Engine](https://www.unrealengine.com/zh-CN) using C++ and Blueprint. It is compatible with UE 4.27 and 5.
+English | [简体中文](README_chs.md)
+TurboLink is an unreal engine plugin enables [Google gRPC](https://grpc.io/) work with [Unreal Engine](https://www.unrealengine.com/) using C++ or Blueprint. It is compatible with UE 4.27 and 5.
 
 ## Features
 * Cross-platform ready.(Windows, Linux, Android, iOS, Mac and PlayStation5)
-* Call rpc functions asynchronously in C++ and blueprint.
+* Call gRPC functions asynchronously in C++ and blueprint.
 * Support lambda callback and delegate function in C++.
-* Support async blueprint node to quickly call rpc functions in blueprint.
-* Support streaming grpc methods.
+* Support async blueprint node to quickly call gRPC functions in blueprint.
+* Support streaming gRPC methods.
 * Support TLS connection.
 * A [protoc-plugin code generation tool](https://github.com/thejinchao/protoc-gen-turbolink) for generating protobuf code wrappers that can be used directly in blueprints.
-* All public header files in the plugin do not include grpc and protobuf library header files, so that your project avoids including too many header files.
+* All public header files in the plugin do not include gRPC and protobuf library header files, so that your project avoids including too many header files.
 
 ## Example
 ![example](https://github.com/thejinchao/turbolink/wiki/image/turbolink_example.png)  
