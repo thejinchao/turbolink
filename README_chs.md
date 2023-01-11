@@ -1,6 +1,6 @@
 # TurboLink
-![logo](https://github.com/thejinchao/turbolink/wiki/image/TurboLink.png)  
 [English](README.md) | 简体中文  
+![logo](https://github.com/thejinchao/turbolink/wiki/image/TurboLink.png)  
 TurboLink 是一个Unreal Engine插件, 能够在[Unreal Engine](https://www.unrealengine.com/) 中通过C++或者蓝图使用[Google gRPC](https://grpc.io/). 目前可以兼容UE4.27和UE5
 
 ## 特性
@@ -15,7 +15,7 @@ TurboLink 是一个Unreal Engine插件, 能够在[Unreal Engine](https://www.unr
 
 ## 范例
 ![example](https://github.com/thejinchao/turbolink/wiki/image/turbolink_example.png)  
-从如下链接可以下载一个Demo工程，建议您首先编译运行该工程，以了解这个插件是如何运行的。这个工程包含了一个可以直接编译运行的UE工程，一个用go语言编写的服务器工程。如果你没有合适的go语言运行环境，可以把客户端链接到我提供的一个互联网上的服务器(grpc.thecodeway.com)，我会尽量保证上面的程序一直处于运行状态。
+从如下链接可以下载一个[Demo工程](https://drive.google.com/file/d/1mb9lZB_ai485sbLtqrw-bk5NtlWK8fgh/view?usp=share_link) ，建议您首先编译运行该工程，以了解这个插件是如何运行的。这个工程包含了一个可以直接编译运行的UE工程，一个用go语言编写的服务器工程。如果你没有合适的go语言运行环境，可以把客户端链接到我提供的一个互联网上的服务器(grpc.thecodeway.com)，我会尽量保证上面的程序一直处于运行状态。
 
 ## 入门
 
@@ -24,4 +24,95 @@ TurboLink 是一个Unreal Engine插件, 能够在[Unreal Engine](https://www.unr
 2. 在你的UE工程中创建`Plugin/TurboLink`这个目录，然后把这个插件代码拷贝到里面
 3. 下载插件所需要的第三方代码库，可以从[这里](https://github.com/thejinchao/turbolink-libraries/releases) 下载一份已经编译好的库文件，然后解压到`Plugin/TurboLink/ThirdParty`目录里
 
+### 2. 配置服务器地址
+打开编辑器的工程设置界面(TurboLink Grpc/Services Config)，在这里可以设置不同的gRPC服务器地址  
+![project-setting](https://github.com/thejinchao/turbolink/wiki/image/project-config.png)  
+对于没有设置地址的服务，会使用缺省的服务器地址
 
+### 3. 配置TLS证书
+TurboLink支持服务器端的tls加密链接。 如果你要启用该功能，需要在设置界面(TurboLink Grpc/Services Config)输入服务器的证书文件内容(PEM格式)。由于UE的编辑的文本输入框只支持单行文本，所以需要把证书里的换行符用'\n'代替  
+![tls-setting](https://github.com/thejinchao/turbolink/wiki/image/tls-config.png)
+
+## 使用方法
+
+### 1. 生成协议文件
+加入你的工程里使用的协议文件`hello.proto`内容如下:
+```protobuf
+syntax = "proto3";
+
+package Greeter;
+option go_package = "./Greeter";
+
+message HelloRequest {
+	string name = 1;
+}
+message HelloResponse {
+	string reply_message = 1;
+}
+service GreeterService {
+	rpc Hello (HelloRequest) returns (HelloResponse);
+}
+```
+如果需要使用该gRPC服务，除了使用`protoc`生成`*.pb.cc` and `*.grpc.pb.cc`外，还需要生成TurboLink插件所需要的一些代码。在插件的`tools`目录，通过批处理`generate_code.cmd`可以直接生成所有这些文件。在使用这个批处理前，需要确保已经把插件拷贝到工程中，并且已经把编译后的三方库文件拷贝到插件中。运行批处理的命令格式如下:
+```
+generate_code.cmd <proto_file> <package_name> <output_path>
+```
+在上面的例子中，则个服务的package名为`Greeter`，所以需要以下步骤生成代码:
+1. 运行如下批处理命令：`generate_code.cmd hello.proto Greeter .\output_path`
+2. 把生成的代码目录`output_path`中的`Private`和`Public`目录拷贝到插件目录`YourProject/Plugins/TurboLink/Source/TurboLinkGrpc`中
+3. 重新生成工程文件并编译
+
+### 2. 链接gRPC服务器
+在C++代码中，使用如下代码连接到gRPC服务器
+```cpp
+UTurboLinkGrpcManager* TurboLinkManager = UTurboLinkGrpcUtilities::GetTurboLinkGrpcManager();
+
+UGreeterService* GreeterService = Cast<UGreeterService>(TurboLinkManager->MakeService("GreeterService"));
+GreeterService->Connect();
+```
+以上代码在蓝图中都有对应的节点可以直接使用
+
+### 3. 调用gRPC函数
+有如下几种不同的调用gRPC函数的方法
+
+#### 3.1 通过Client对象调用
+首先创建服务对应的Client对象，然后通过这个Client对象设置gRPC对应的代理委托函数
+```cpp
+GreeterServiceClient = GreeterService->MakeClient();
+GreeterServiceClient->OnHelloResponse.AddUniqueDynamic(this, &UTurboLinkDemoCppTest::OnHelloResponse);
+```
+然后再调用gRPC函数
+```cpp
+FGrpcContextHandle CtxHello = GreeterServiceClient->InitHello();
+
+FGrpcGreeterHelloRequest HelloRequest;
+HelloRequest.Name = TEXT("Neo");
+
+GreeterServiceClient->Hello(CtxHello, HelloRequest);
+```
+以上函数都有对应的蓝图节点  
+![make_client](https://github.com/thejinchao/turbolink/wiki/image/make_client.png)
+![call_grpc](https://github.com/thejinchao/turbolink/wiki/image/call_grpc.png)
+
+#### 3.2 Lambda回调函数
+如果是一次性调用的gRPC函数，可以再服务创建链接之后，使用使用Lambda回调函数来更快捷使用gRPC接口
+```cpp
+FGrpcGreeterHelloRequest HelloRequest;
+HelloRequest.Name = TEXT("Neo");
+
+GreeterService->CallHello(HelloRequest, 
+    [this](const FGrpcResult& Result, const FGrpcGreeterHelloResponse& Response) 
+    {
+        if (Result.Code == EGrpcResultCode::Ok)
+        {
+            //Do something
+        }
+    }
+);
+```
+需要注意的是，如果是客户端流式类型的函数，是无法使用Lambda回调函数的
+
+#### 3.3 异步蓝图节点
+在蓝图中，还可以使用异步蓝图节点的方式来更快捷的调用gRPC函数, 使用异步蓝图节点可以一次性完成服务链接，客户端调用回调等过程  
+![async-node](https://github.com/thejinchao/turbolink/wiki/image/async-node.png)  
+当前异步蓝图节点还无法支持客户端流式以及服务器端流式类型的gRPC函数
