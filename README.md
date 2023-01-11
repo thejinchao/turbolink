@@ -93,6 +93,8 @@ HelloRequest.Name = TEXT("Neo");
 GreeterServiceClient->Hello(CtxHello, HelloRequest);
 ```
 The above functions can be called directly in the blueprint.
+![make_client](https://github.com/thejinchao/turbolink/wiki/image/make_client.png)
+![call_grpc](https://github.com/thejinchao/turbolink/wiki/image/call_grpc.png)
 
 #### 3.2 Lambda callback
 If the grpc call is one-off, you can use a lambda function as a callback after service connected.
@@ -100,12 +102,15 @@ If the grpc call is one-off, you can use a lambda function as a callback after s
 FGrpcGreeterHelloRequest HelloRequest;
 HelloRequest.Name = TEXT("Neo");
 
-GreeterService->CallHello(HelloRequest, [this](const FGrpcResult& Result, const FGrpcGreeterHelloResponse& Response) {
-    if (Result.Code == EGrpcResultCode::Ok)
+GreeterService->CallHello(HelloRequest, 
+    [this](const FGrpcResult& Result, const FGrpcGreeterHelloResponse& Response) 
     {
-        //Do something
+        if (Result.Code == EGrpcResultCode::Ok)
+        {
+            //Do something
+        }
     }
-});
+);
 ```
 It should be noted that if it is a function of client stream type, lambda callback cannot be used.
 
