@@ -16,7 +16,7 @@ TurboLink is an unreal engine plugin enables [Google gRPC](https://grpc.io/) wor
 ## Example
 ![example](https://github.com/thejinchao/turbolink/wiki/image/turbolink_example.png)  
 An example project can be download from [this link](https://drive.google.com/file/d/1mb9lZB_ai485sbLtqrw-bk5NtlWK8fgh/view?usp=share_link)  
-It is recommended that you first download this project and run it to understand how it works. This project includes a UE project that can be directly compiled and run, and a server project written in golang. If you do not have a golang runtime environment, you can also connect to the client to the server I provided (grpc.thecodway.com), I will try to keep this server running.
+It is recommended that you first download this project and run it to understand how it works. This project includes a UE project that can be directly compiled and run, and a server project written in golang. If you do not have a golang runtime environment, you can also connect to the client to the server I provided (grpc.thecodeway.com), I will try to keep this server running.
 
 ## Geting started  
 
