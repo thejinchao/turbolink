@@ -1,29 +1,29 @@
 # TurboLink
 English | [简体中文](README_chs.md)  
 ![logo](https://github.com/thejinchao/turbolink/wiki/image/TurboLink.png)  
-TurboLink is an unreal engine plugin enables [Google gRPC](https://grpc.io/) work with [Unreal Engine](https://www.unrealengine.com/) using C++ or Blueprint. It is compatible with UE 4.27 and 5.
+TurboLink is an unreal engine plugin that enables [Google gRPC](https://grpc.io/) to work with [Unreal Engine](https://www.unrealengine.com/) using C++ or Blueprint. It is compatible with UE 4.27 and 5.
 
 ## Features
-* Cross-platform ready.(Windows, Linux, Android, iOS, Mac and PlayStation5)
+* Cross-platform ready. (Windows, Linux, Android, iOS, Mac, and PlayStation5)
 * Call gRPC functions asynchronously in C++ and blueprint.
 * Support lambda callback and delegate function in C++.
-* Support async blueprint node to quickly call gRPC functions in blueprint.
+* Support async blueprint node to quickly call gRPC functions in a blueprint.
 * Support streaming gRPC methods.
 * Support TLS connection.
 * A [protoc-plugin code generation tool](https://github.com/thejinchao/protoc-gen-turbolink) for generating protobuf code wrappers that can be used directly in blueprints.
-* All public header files in the plugin do not include gRPC and protobuf library header files, so that your project avoids including too many header files.
+* All public header files in the plugin do not include gRPC and protobuf library header files so that your project avoids including too many header files.
 
 ## Example
 ![example](https://github.com/thejinchao/turbolink/wiki/image/turbolink_example.png)  
-An example project can be download from [this link](https://drive.google.com/file/d/1mb9lZB_ai485sbLtqrw-bk5NtlWK8fgh/view?usp=share_link)  
-It is recommended that you first download this project and run it to understand how it works. This project includes a UE project that can be directly compiled and run, and a server project written in golang. If you do not have a golang runtime environment, you can also connect to the client to the server I provided (grpc.thecodeway.com), I will try to keep this server running.
+An example project can be downloaded from [this link](https://drive.google.com/file/d/1mb9lZB_ai485sbLtqrw-bk5NtlWK8fgh/view?usp=share_link)  
+It is recommended that first download this project and run it to understand how it works. This project includes a UE project that can be directly compiled and run and a server project written in golang. If you do not have a golang runtime environment, you can connect the client to the server I provided (grpc.thecodeway.com). I will try to keep this server running.
 
 ## Geting started  
 
 ### 1. Installing the plugin
 1. Clone this git repository.
 2. Create a `Plugins/TurboLink` folder under your project folder, then copy this repo into it.
-3. Download pre-bult thirdparty binaries libraries from [here](https://github.com/thejinchao/turbolink-libraries/releases), and extract it to `Plugin/TurboLink/ThirdParty`.
+3. Download pre-built thirdparty binaries libraries from [here](https://github.com/thejinchao/turbolink-libraries/releases), and extract it to `Plugin/TurboLink/ThirdParty`.
 
 ### 2. Config service endpoint
 Open the project setting window (TurboLink Grpc/Services Config) to set the server endpoint to different gRPC services.  
@@ -31,7 +31,7 @@ Open the project setting window (TurboLink Grpc/Services Config) to set the serv
 For services that do not have an endpoint set, turbolink will use the default endpoint to connect.
 
 ### 3. Config TLS certificate
-Turbolink support server-side tls connection type. If you want to enable this function, you need set the server certificate file(PEM format) in the settings windows (TurboLink Grpc/Services Config). Because UE's setting window only supports single-line text, you need to replace the newline character in the certificate file with `\n`.  
+Turbolink support server-side tls connection type. If you want to enable this function, you need to set the server certificate file(PEM format) in the settings windows (TurboLink Grpc/Services Config). Because UE's setting window only supports single-line text, you need to replace the newline character in the certificate file with `\n`.  
 ![tls-setting](https://github.com/thejinchao/turbolink/wiki/image/tls-config.png)
 
 ## Usage
@@ -58,9 +58,9 @@ To use this service, in addition to using `protoc` to generate `*.pb.cc` and `*.
 ```
 generate_code.cmd <proto_file> <package_name> <output_path>
 ```
-In the proto file above, package name is `Greeter`, Use the following steps to generate code files:
+In the proto file above, the package name is `Greeter`, Use the following steps to generate code files:
 1. Generate code file with command line: `generate_code.cmd hello.proto Greeter .\output_path`
-2. Copy generated directory `Private` and `Public` from `output_path` to `YourProject/Plugins/TurboLink/Source/TurboLinkGrpc`.
+2. Copy generated directories `Private` and `Public` from `output_path` to `YourProject/Plugins/TurboLink/Source/TurboLinkGrpc`
 3. Re-generate your project solution and build it.
 
 This batch file generates code through a protoc plugin named `protoc-gen-turbolink`, the code of this plugin can be found [here](https://github.com/thejinchao/protoc-gen-turbolink)
@@ -79,7 +79,7 @@ The above functions can be called directly in the blueprint.
 There are several different ways of calling gRPC methods.
 
 #### 3.1 Client object
-First create the client object, and set the delegate function.
+First, create the client object, and set the delegate function.
 ```cpp
 GreeterServiceClient = GreeterService->MakeClient();
 GreeterServiceClient->OnHelloResponse.AddUniqueDynamic(this, &UTurboLinkDemoCppTest::OnHelloResponse);
@@ -98,7 +98,7 @@ The above functions can be called directly in the blueprint.
 ![call_grpc](https://github.com/thejinchao/turbolink/wiki/image/call_grpc.png)
 
 #### 3.2 Lambda callback
-If the gRPC call is one-off, you can use a lambda function as a callback after service connected.
+If the gRPC call is a one-off, you can use a lambda function as a callback after the service is connected.
 ```cpp
 FGrpcGreeterHelloRequest HelloRequest;
 HelloRequest.Name = TEXT("Neo");
@@ -116,6 +116,7 @@ GreeterService->CallHello(HelloRequest,
 It should be noted that if it is a function of client stream type, lambda callback cannot be used.
 
 #### 3.3 Async blueprint node
-In the blueprint, if you need to quickly test some gRPC functions, or use some one-off functions, you can use asynchronous blueprint node, which can automatically complete the service link and callback processing.  
+In the blueprint, if you need to quickly test some gRPC functions, or use some one-off functions, you can use an asynchronous blueprint node, which can automatically complete the service link and callback processing.  
 ![async-node](https://github.com/thejinchao/turbolink/wiki/image/async-node.png)  
-Currently, async node cannot support gRPC functions of client stream and server stream types.
+Currently, the async node cannot support gRPC functions of client stream and server stream types.
+
