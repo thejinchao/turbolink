@@ -35,7 +35,7 @@ goto :eof
 set PROTO_CPP_FILE_NAME=%~n1.pb.cc
 set PROTO_H_FILE_NAME=%~n1.pb.h
 
-set CPP_OUTPUT_PATH=%OUTPUT_PATH%\Private\S%PACKAGE_NAME%\pb
+set CPP_OUTPUT_PATH=%OUTPUT_PATH%\Private\pb
 if not exist %CPP_OUTPUT_PATH% mkdir %CPP_OUTPUT_PATH%
 
 "%PROTOC_EXE_PATH%" ^
