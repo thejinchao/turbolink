@@ -126,3 +126,9 @@ It should be noted that if it is a function of client stream type, lambda callba
 In the blueprint, if you need to quickly test some gRPC functions, or use some one-off functions, you can use an asynchronous blueprint node, which can automatically complete the service link and callback processing.  
 ![async-node](https://github.com/thejinchao/turbolink/wiki/image/async-node.png)  
 Currently, the async node cannot support gRPC functions of client stream and server stream types.
+
+## Feature not yet implemented
+One of the design purposes of TurboLink is to be able to use the gRPC directly in the blueprint, so some `proto3` features cannot be implemented in TurboLink yet.
+* The [`map`](https://protobuf.dev/programming-guides/proto3/#maps) field type is not supported yet, but it is already in the development plan.
+* Do not use [`optional`](https://protobuf.dev/programming-guides/proto3/#specifying-field-rules) or [`oneof`](https://protobuf.dev/programming-guides/proto3/#oneof) field. And I have no plan to support functions like 'has_xxx' or 'clean_xxx' in the blueprint, which will greatly increase the complexity of the generated code.
+* Similarly, [`any`](https://protobuf.dev/programming-guides/proto3/#any) message type cannot be used in TurboLink either.
