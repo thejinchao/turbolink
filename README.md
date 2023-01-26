@@ -10,20 +10,20 @@ TurboLink is an unreal engine plugin that enables [Google gRPC](https://grpc.io/
 * Support async blueprint node to quickly call gRPC functions in a blueprint.
 * Support streaming gRPC methods.
 * Support TLS connection.
-* A [protoc-plugin code generation tool](https://github.com/thejinchao/protoc-gen-turbolink) for generating protobuf code wrappers that can be used directly in blueprints.
+* A [protoc-plugin code generation tool](https://github.com/thejinchao/protoc-gen-turbolink) for generating protobuf code wrappers that can be used directly in blueprint.
 * All public header files in the plugin do not include gRPC and protobuf library header files so that your project avoids including too many header files.
 
 ## Example
 ![example](https://github.com/thejinchao/turbolink/wiki/image/turbolink_example.png)  
 An example project can be downloaded from [this link](https://drive.google.com/file/d/1mb9lZB_ai485sbLtqrw-bk5NtlWK8fgh/view?usp=share_link)  
 It is recommended that first download this project and run it to understand how it works. This project includes a UE project that can be directly compiled and run and a server project written in golang. 
-### Connect to public test server
-If you do not have a golang runtime environment, you can connect the client to the server I provided (grpc.thecodeway.com). I will try to keep this server running.
 ### Run local server
 1. Installl golang enviroment 1.19
 2. Make sure currennt directory is `TurboLink.example/Server`, and run `go mod tidy` to update all module needed.
 3. Run grpc service with command `go run main.go`
 4. Open turbolink setting windows in UE editor, set default Endpoint as `localhost:5050`. Do not use `127.0.0.1:5050` because the certificate file in the sample project does not include this domain
+### Public test server
+If you do not have a golang runtime environment, you can connect the client to the server I provided (grpc.thecodeway.com). I will try to keep this server running.
 
 ## Geting started  
 
@@ -127,3 +127,6 @@ In the blueprint, if you need to quickly test some gRPC functions, or use some o
 ![async-node](https://github.com/thejinchao/turbolink/wiki/image/async-node.png)  
 Currently, the async node cannot support gRPC functions of client stream and server stream types.
 
+## Feature not yet implemented
+One of the design purposes of turbolink is to be able to use the gRPC directly in the blueprint, so some `proto3` features cannot be implemented in turbolink yet.
+### Optional field
