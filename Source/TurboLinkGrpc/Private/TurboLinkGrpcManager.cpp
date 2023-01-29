@@ -48,11 +48,12 @@ void UTurboLinkGrpcManager::Shutdown()
 	bIsShutdowning = true;
 
 	//Shutdown all service
-	for (UGrpcService* service : ServiceSet)
+	for (auto& element : WorkingService)
 	{
-		service->Shutdown();
+		element.Value->Shutdown();
 	}
-	ServiceSet.Empty();
+	WorkingService.Empty();
+	ShutingDownService.Empty();
 
 	//Shutdown and drain the completion queue
 	d->ShutdownCompletionQueue();
@@ -74,9 +75,10 @@ void UTurboLinkGrpcManager::Tick(float DeltaTime)
 		std::shared_ptr<Private::ServiceChannel> serviceChannel = channelElement.second;
 		if (serviceChannel->UpdateState()) 
 		{
+			EGrpcServiceState newState = Private::GrpcStateToServiceState(serviceChannel->ChannelState);
 			for (auto& serviceElement : serviceChannel->AttachedServices)
 			{
-				serviceElement->OnServiceStateChanged.Broadcast(Private::GrpcStateToServiceState(serviceChannel->ChannelState));
+				serviceElement->OnServiceStateChanged.Broadcast(newState);
 			}
 		}
 	}
@@ -108,37 +110,99 @@ void UTurboLinkGrpcManager::Tick(float DeltaTime)
 		}
 	}
 
-	//Tick service
-	TArray<UGrpcService*> needRemove;
-	for (UGrpcService* service : ServiceSet)
+	//get config instance
+	FTurboLinkGrpcModule* turboLinkModule = FModuleManager::GetModulePtr<FTurboLinkGrpcModule>("TurboLinkGrpc");
+	UTurboLinkGrpcConfig* config = turboLinkModule->GetTurboLinkGrpcConfig();
+	int keepServiceAliveWithoutRefrenceSeconds = config->KeepServiceAliveWithoutRefrenceSeconds;
+
+	//Tick working service
+	for (auto it = WorkingService.CreateIterator(); it; ++it)
 	{
+		UGrpcService* service = it.Value();
 		service->Tick(DeltaTime);
 
-		if (service->bIsShutdowning && service->ClientSet.Num() == 0)
+		//pending shutdown?
+		if (service->RefrenceCounts <= 0 && service->StartPendingShutdown > 0.0 && keepServiceAliveWithoutRefrenceSeconds > 0)
 		{
-			needRemove.Add(service);
+			double secondsNow = FPlatformTime::Seconds();
+			if (secondsNow - service->StartPendingShutdown > keepServiceAliveWithoutRefrenceSeconds)
+			{
+				//remove from working map and add to shutingdown set
+				it.RemoveCurrent();
+				ShutingDownService.Add(service);
+
+				//call real shutdown function
+				service->StartPendingShutdown = 0.0;
+				service->Shutdown();
+
+				UE_LOG(LogTurboLink, Log, TEXT("Shutdown service[%s]"), *(service->GetName()));
+			}
 		}
 	}
+	WorkingService.Compact();
 
-	//Remove shutdown service
-	for (UGrpcService* service : needRemove)
+	//Tick shuting down service
+	for (auto it = ShutingDownService.CreateIterator(); it; ++it)
 	{
-		ServiceSet.Remove(service);
+		UGrpcService* service = *it;
+		service->Tick(DeltaTime);
+
+		if (service->bIsShutingDown && service->ClientSet.Num() == 0)
+		{
+			//Remove shutdowned service
+			it.RemoveCurrent();
+		}
 	}
+	ShutingDownService.Compact();
 }
 
 UGrpcService* UTurboLinkGrpcManager::MakeService(const FString& ServiceName)
 {
+	UGrpcService** workingService = WorkingService.Find(ServiceName);
+
+	//find existent working service 
+	if (workingService != nullptr)
+	{
+		//add refrence
+		(*workingService)->RefrenceCounts += 1;
+		(*workingService)->StartPendingShutdown = 0.0;
+
+		UE_LOG(LogTurboLink, Log, TEXT("MakeService service[%s], RefrenceCounts=[%d]"), *ServiceName, (*workingService)->RefrenceCounts);
+		return *workingService;
+	}
+
+	//create new service object
 	UClass** serviceClass = ServiceClassMap.Find(ServiceName);
 	if (serviceClass == nullptr)
 	{
+		UE_LOG(LogTurboLink, Error, TEXT("Can't find service class[%s]"), *ServiceName);
 		return nullptr;
 	}
 
 	UGrpcService* service = NewObject<UGrpcService>(this, *serviceClass);
 	service->TurboLinkManager = this;
-	ServiceSet.Add(service);
+	service->RefrenceCounts = 1;
+	WorkingService.Add(ServiceName, service);
 	return service;
+}
+
+void UTurboLinkGrpcManager::ReleaseService(UGrpcService* Service)
+{
+	check(Service);
+
+	//release refrence
+	if (Service->RefrenceCounts > 1) 
+	{
+		Service->RefrenceCounts -= 1;
+		UE_LOG(LogTurboLink, Log, TEXT("ReleaseService service[%s], RefrenceCounts=[%d]"), *(Service->GetName()), Service->RefrenceCounts);
+		return;
+	}
+
+	//pending to shutdown
+	Service->RefrenceCounts = 0;
+	Service->StartPendingShutdown = FPlatformTime::Seconds();
+
+	UE_LOG(LogTurboLink, Log, TEXT("ReleaseService service[%s], StartPendingShutdown..."), *(Service->GetName()));
 }
 
 void* UTurboLinkGrpcManager::GetNextTag(TSharedPtr<GrpcContext> Context)

@@ -15,27 +15,24 @@ UGrpcService::~UGrpcService()
 
 void UGrpcService::Tick(float DeltaTime)
 {
-	TArray<UGrpcClient*> needRemove;
-	for (UGrpcClient* client : ClientSet)
+	for (auto it = ClientSet.CreateIterator(); it; ++it)
 	{
+		UGrpcClient* client = *it;
+
 		client->Tick(DeltaTime);
 
 		//All context has stoped
 		if (client->bIsShutdowning && client->ContextMap.Num() == 0)
 		{
-			needRemove.Add(client);
+			it.RemoveCurrent();
 		}
-	}
-	for (UGrpcClient* client : needRemove)
-	{
-		ClientSet.Remove(client);
 	}
 }
 
 void UGrpcService::Shutdown()
 {
 	//already in shutdown progress?
-	if (bIsShutdowning) return;
+	if (bIsShutingDown) return;
 
 	OnServiceStateChanged.Clear();
 
@@ -44,12 +41,7 @@ void UGrpcService::Shutdown()
 	{
 		client->Shutdown();
 	}
-	bIsShutdowning = true;
-}
-
-void UGrpcService::AddClient(UGrpcClient* Client)
-{
-	ClientSet.Add(Client);
+	bIsShutingDown = true;
 }
 
 void UGrpcService::RemoveClient(UGrpcClient* Client)

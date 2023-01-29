@@ -30,9 +30,15 @@ public:
 	UFUNCTION(BlueprintCallable)
 	UGrpcService* MakeService(const FString& ServiceName);
 
+	UFUNCTION(BlueprintCallable)
+	void ReleaseService(UGrpcService* Service);
+
 protected:
 	UPROPERTY()
-	TSet<UGrpcService*> ServiceSet;
+	TMap<FString, UGrpcService*> WorkingService;
+
+	UPROPERTY()
+	TSet<UGrpcService*> ShutingDownService;
 
 private:
 	TMap<FString, UClass*> ServiceClassMap;

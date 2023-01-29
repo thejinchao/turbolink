@@ -37,8 +37,11 @@ public:
 		return EGrpcServiceState::NotCreate;
 	}
 
-	UFUNCTION(BlueprintCallable)
+protected:
 	virtual void Shutdown();
+	int32 RefrenceCounts = 0;
+	double StartPendingShutdown = 0.0;
+	bool bIsShutingDown = false;
 
 protected:
 	template<typename T>
@@ -47,20 +50,17 @@ protected:
 		auto client = NewObject<T>(this);
 		client->Service = this;
 
-		AddClient(client);
+		ClientSet.Add(client);
 		return client;
 	}
-
-	void AddClient(UGrpcClient* Client);
-	void RemoveClient(UGrpcClient* Client);
-
 	void Tick(float DeltaTime);
 
 public:
+	UFUNCTION(BlueprintCallable)
+	void RemoveClient(UGrpcClient* Client);
+
 	UPROPERTY()
 	UTurboLinkGrpcManager* TurboLinkManager;
-	
-	bool bIsShutdowning = false;
 
 	UPROPERTY(BlueprintAssignable)
 	FOnServiceStateChanged OnServiceStateChanged;

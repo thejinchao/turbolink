@@ -54,6 +54,11 @@ public:
 	UPROPERTY(Config, EditAnywhere, Category = "Services Config")
 	TMap<FString, FString> ServiceEndPoint;
 
+	//After waiting for a duration of this times(seconds), 
+	// the gRPC service object will be deleted if no other object references it.
+	UPROPERTY(Config, EditAnywhere, Category = "Services Config")
+	int KeepServiceAliveWithoutRefrenceSeconds = 60;
+
 public:
 	UFUNCTION(BlueprintCallable)
 	FString GetServiceEndPoint(const FString& ServiceName) const;
