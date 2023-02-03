@@ -126,6 +126,5 @@ GreeterService->CallHello(HelloRequest,
 
 ## 尚不支持的特性
 TurboLink的设计目的之一，就是为了能够在蓝图中使用gRPC函数，为了达到这一目的，某些`proto3`中的特性还不被支持。
-* [`map`](https://protobuf.dev/programming-guides/proto3/#maps) 类型的字段暂时无法在TurboLink中使用，不过这一特性已经在开发计划中
 * 不要使用[`optional`](https://protobuf.dev/programming-guides/proto3/#specifying-field-rules) 或者 [`oneof`](https://protobuf.dev/programming-guides/proto3/#oneof)类型的字段. 主要是我觉得在蓝图中实现'has_xxx'或者'clean_xxx'这样的特性会导致代码的复杂度大幅度增加，所以暂时没有实现这一特性的计划
 * 同样的原因，[`any`](https://protobuf.dev/programming-guides/proto3/#any) 这样的字段目前也没有计划支持
