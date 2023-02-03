@@ -11,7 +11,6 @@
   #pragma warning (disable:4334) // 'operator' : result of 32-bit shift implicitly converted to 64 bits (was 64-bit shift intended?)
   #pragma warning (disable:4355) // 'this' : used in base member initializer list
   #pragma warning (disable:4506) // no definition for inline function 'function'
-  #pragma warning (disable:4800) // 'type' : forcing value to bool 'true' or 'false' (performance warning)
   #pragma warning (disable:4996) // The compiler encountered a deprecated declaration.
   #pragma warning (disable:4125) // decimal digit terminates octal escape sequence
 #endif
