@@ -63,10 +63,10 @@ service GreeterService {
 ```
 To use this service, in addition to using `protoc` to generate `*.pb.cc` and `*.grpc.pb.cc` files, you also need to generate the code files required by turbolink. In the `tools` directory of the plugin, there is a batch file called `generate_code.cmd` that is used to generate all the gRPC code files. Before using it, make sure you have installed the plugin into your project and all third-party library files are installed. The command line is:
 ```
-generate_code.cmd <proto_file> <package_name> <output_path>
+generate_code.cmd <proto_file> <output_path>
 ```
-In the proto file above, the package name is `Greeter`, Use the following steps to generate code files:
-1. Generate code file with command line: `generate_code.cmd hello.proto Greeter .\output_path`
+In the proto file above, Use the following steps to generate code files:
+1. Generate code file with command line: `generate_code.cmd hello.proto .\output_path`
 2. Copy generated directories `Private` and `Public` from `output_path` to `YourProject/Plugins/TurboLink/Source/TurboLinkGrpc`
 3. Re-generate your project solution and build it.
 

@@ -62,10 +62,10 @@ service GreeterService {
 ```
 如果需要使用该gRPC服务，除了使用`protoc`生成`*.pb.cc` and `*.grpc.pb.cc`外，还需要生成TurboLink插件所需要的一些代码。在插件的`tools`目录，通过批处理`generate_code.cmd`可以直接生成所有这些文件。在使用这个批处理前，需要确保已经把插件拷贝到工程中，并且已经把编译后的三方库文件拷贝到插件中。运行批处理的命令格式如下:
 ```
-generate_code.cmd <proto_file> <package_name> <output_path>
+generate_code.cmd <proto_file> <output_path>
 ```
-在上面的例子中，则个服务的package名为`Greeter`，所以需要以下步骤生成代码:
-1. 运行如下批处理命令：`generate_code.cmd hello.proto Greeter .\output_path`
+在上面的例子中，需要以下步骤生成代码:
+1. 运行如下批处理命令：`generate_code.cmd hello.proto .\output_path`
 2. 把生成的代码目录`output_path`中的`Private`和`Public`目录拷贝到插件目录`YourProject/Plugins/TurboLink/Source/TurboLinkGrpc`中
 3. 重新生成工程文件并编译
 

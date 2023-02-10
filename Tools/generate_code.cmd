@@ -7,11 +7,8 @@ if not exist %INPUT_PROTO_FILE% (
 	exit /b 1
 )
 
-::get package name
-set PACKAGE_NAME=%2
-
 ::make sure output path exist
-set OUTPUT_PATH=%3
+set OUTPUT_PATH=%2
 if not exist %OUTPUT_PATH% (
 	echo Output path '%OUTPUT_PATH%' not exist!
 	exit /b 1
