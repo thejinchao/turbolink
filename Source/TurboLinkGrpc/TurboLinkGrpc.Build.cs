@@ -35,7 +35,9 @@ public class TurboLinkGrpc : ModuleRules
 		);
 		AddEngineThirdPartyPrivateStaticDependencies(Target, "OpenSSL");
 		AddEngineThirdPartyPrivateStaticDependencies(Target, "zlib");
-		
+
+		PrivateIncludePaths.Add(Path.Combine(ModuleDirectory, "Private/pb"));
+
 		//ThirdParty include
 		PrivateIncludePaths.AddRange(
 			new string[] {

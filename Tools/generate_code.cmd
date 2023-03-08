@@ -1,6 +1,9 @@
 @echo off
 
-::make sure input file and output path exist
+::set current directory as proto file path
+set INPUT_PROTO_PATH=%cd%
+
+::make sure input proto files exist
 set INPUT_PROTO_FILE=%1
 if not exist %INPUT_PROTO_FILE% (
 	echo Input proto file '%INPUT_PROTO_FILE%' not exist!
@@ -16,7 +19,7 @@ if not exist %OUTPUT_PATH% (
 
 ::get turbolink plugin path
 pushd %~dp0\..
-set TL_UE_PLUGIN_PATH=%CD%
+set TL_UE_PLUGIN_PATH=%cd%
 popd
 
 set PROTOC_EXE_PATH=%TL_UE_PLUGIN_PATH%\ThirdParty\protobuf\bin\protoc.exe
@@ -24,34 +27,30 @@ set GRPC_CPP_PLUGIN_EXE_PATH=%TL_UE_PLUGIN_PATH%\ThirdParty\grpc\bin\grpc_cpp_pl
 set TURBOLINK_PLUGIN_PATH=%TL_UE_PLUGIN_PATH%\Tools\protoc-gen-turbolink.exe
 set FIX_PROTO_CPP=%TL_UE_PLUGIN_PATH%\Tools\fix_proto_cpp.txt
 set FIX_PROTO_H=%TL_UE_PLUGIN_PATH%\Tools\fix_proto_h.txt
-
-call :CallGrpc %INPUT_PROTO_FILE% 
-goto :eof
-
-:CallGrpc
-set PROTO_CPP_FILE_NAME=%~n1.pb.cc
-set PROTO_H_FILE_NAME=%~n1.pb.h
-
 set CPP_OUTPUT_PATH=%OUTPUT_PATH%\Private\pb
 if not exist %CPP_OUTPUT_PATH% mkdir %CPP_OUTPUT_PATH%
 
+::call protoc.exe
 "%PROTOC_EXE_PATH%" ^
  --cpp_out="%CPP_OUTPUT_PATH%" ^
  --plugin=protoc-gen-grpc="%GRPC_CPP_PLUGIN_EXE_PATH%" --grpc_out=%CPP_OUTPUT_PATH% ^
  --plugin=protoc-gen-turbolink="%TURBOLINK_PLUGIN_PATH%" --turbolink_out="%OUTPUT_PATH%" ^
  %INPUT_PROTO_FILE%
 
-::Fix compile warning
-pushd %CPP_OUTPUT_PATH%
+:: fix protobuf compile warning 
+call :FixCompileWarning %FIX_PROTO_H% %CPP_OUTPUT_PATH%\%INPUT_PROTO_FILE:~0,-6%.pb.h
+call :FixCompileWarning %FIX_PROTO_CPP% %CPP_OUTPUT_PATH%\%INPUT_PROTO_FILE:~0,-6%.pb.cc
+goto :eof
 
-copy /b %FIX_PROTO_CPP%+%PROTO_CPP_FILE_NAME% %PROTO_CPP_FILE_NAME%.tmp
-del /f %PROTO_CPP_FILE_NAME%
-rename %PROTO_CPP_FILE_NAME%.tmp %PROTO_CPP_FILE_NAME%
+:FixCompileWarning
+set FIX_FILE=%1
+set FILE_PATH=%~p2
+set FILE_NAME=%~nx2
 
-copy /b %FIX_PROTO_H%+%PROTO_H_FILE_NAME% %PROTO_H_FILE_NAME%.tmp
-del /f %PROTO_H_FILE_NAME%
-rename %PROTO_H_FILE_NAME%.tmp %PROTO_H_FILE_NAME%
-
+pushd %FILE_PATH%
+copy /b %FIX_FILE%+%FILE_NAME% %FILE_NAME%.tmp
+del /f %FILE_NAME%
+rename %FILE_NAME%.tmp %FILE_NAME%
 popd 
 
 goto :eof
