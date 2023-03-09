@@ -68,6 +68,8 @@ generate_code.cmd <proto_file> <output_path>
 1. 运行如下批处理命令：`generate_code.cmd hello.proto .\output_path`
 2. 把生成的代码目录`output_path`中的`Private`和`Public`目录拷贝到插件目录`YourProject/Plugins/TurboLink/Source/TurboLinkGrpc`中
 3. 重新生成工程文件并编译
+这个批处理使用的是protoc的插件`protoc-gen-turbolink`来生成代码，这个插件的源码在[这里](https://github.com/thejinchao/protoc-gen-turbolink).
+如果你的工程中包含了多个proto文件，并且文件之间有依赖关系，那么你应该有一个根目录保存这些文件，然后以这个目录作为当前的工作路径来运行`generate_code.cmd`
 
 ### 2. 链接gRPC服务器
 在C++代码中，使用如下代码连接到gRPC服务器
@@ -126,5 +128,5 @@ GreeterService->CallHello(HelloRequest,
 
 ## 尚不支持的特性
 TurboLink的设计目的之一，就是为了能够在蓝图中使用gRPC函数，为了达到这一目的，某些`proto3`中的特性还不被支持。
-* 不要使用[`optional`](https://protobuf.dev/programming-guides/proto3/#specifying-field-rules) 或者 [`oneof`](https://protobuf.dev/programming-guides/proto3/#oneof)类型的字段. 主要是我觉得在蓝图中实现'has_xxx'或者'clean_xxx'这样的特性会导致代码的复杂度大幅度增加，所以暂时没有实现这一特性的计划
+* 不要使用[`optional`](https://protobuf.dev/programming-guides/proto3/#specifying-field-rules) 类型的字段. 主要是我觉得在蓝图中实现'has_xxx'或者'clean_xxx'这样的特性会导致代码的复杂度大幅度增加，所以暂时没有实现这一特性的计划
 * 同样的原因，[`any`](https://protobuf.dev/programming-guides/proto3/#any) 这样的字段目前也没有计划支持

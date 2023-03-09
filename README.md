@@ -71,6 +71,7 @@ In the proto file above, Use the following steps to generate code files:
 3. Re-generate your project solution and build it.
 
 This batch file generates code through a protoc plugin named `protoc-gen-turbolink`, the code of this plugin can be found [here](https://github.com/thejinchao/protoc-gen-turbolink)
+If your project contains multiple proto files, and there are dependencies between files, then you should have a root directory to save these files, and then use this directory as the current working path to run `generate_code.cmd`
 
 ### 2. Connect to gRPC service
 Use the following c++ code to link to the gRPC services.
@@ -129,5 +130,5 @@ Currently, the async node cannot support gRPC functions of client stream and ser
 
 ## Feature not yet implemented
 One of the design purposes of TurboLink is to be able to use the gRPC directly in the blueprint, so some `proto3` features cannot be implemented in TurboLink yet.
-* Do not use [`optional`](https://protobuf.dev/programming-guides/proto3/#specifying-field-rules) or [`oneof`](https://protobuf.dev/programming-guides/proto3/#oneof) field. And I have no plan to support functions like 'has_xxx' or 'clean_xxx' in the blueprint, which will greatly increase the complexity of the generated code.
+* Do not use [`optional`](https://protobuf.dev/programming-guides/proto3/#specifying-field-rules) field. And I have no plan to support functions like 'has_xxx' or 'clean_xxx' in the blueprint, which will greatly increase the complexity of the generated code.
 * Similarly, [`any`](https://protobuf.dev/programming-guides/proto3/#any) message type cannot be used in TurboLink either.
