@@ -23,6 +23,7 @@ set TL_UE_PLUGIN_PATH=%cd%
 popd
 
 set PROTOC_EXE_PATH=%TL_UE_PLUGIN_PATH%\ThirdParty\protobuf\bin\protoc.exe
+set PROTOBUF_INC_PATH=%TL_UE_PLUGIN_PATH%\ThirdParty\protobuf\include
 set GRPC_CPP_PLUGIN_EXE_PATH=%TL_UE_PLUGIN_PATH%\ThirdParty\grpc\bin\grpc_cpp_plugin.exe
 set TURBOLINK_PLUGIN_PATH=%TL_UE_PLUGIN_PATH%\Tools\protoc-gen-turbolink.exe
 set FIX_PROTO_CPP=%TL_UE_PLUGIN_PATH%\Tools\fix_proto_cpp.txt
@@ -32,20 +33,21 @@ if not exist %CPP_OUTPUT_PATH% mkdir %CPP_OUTPUT_PATH%
 
 ::call protoc.exe
 "%PROTOC_EXE_PATH%" ^
+ --proto_path="%PROTOBUF_INC_PATH%" --proto_path="%INPUT_PROTO_PATH%" ^
  --cpp_out="%CPP_OUTPUT_PATH%" ^
  --plugin=protoc-gen-grpc="%GRPC_CPP_PLUGIN_EXE_PATH%" --grpc_out=%CPP_OUTPUT_PATH% ^
  --plugin=protoc-gen-turbolink="%TURBOLINK_PLUGIN_PATH%" --turbolink_out="%OUTPUT_PATH%" ^
  %INPUT_PROTO_FILE%
 
 :: fix protobuf compile warning 
-call :FixCompileWarning %FIX_PROTO_H% %CPP_OUTPUT_PATH%\%INPUT_PROTO_FILE:~0,-6%.pb.h
-call :FixCompileWarning %FIX_PROTO_CPP% %CPP_OUTPUT_PATH%\%INPUT_PROTO_FILE:~0,-6%.pb.cc
+call :FixCompileWarning %FIX_PROTO_H% %CPP_OUTPUT_PATH%\%INPUT_PROTO_FILE% "pb.h"
+call :FixCompileWarning %FIX_PROTO_CPP% %CPP_OUTPUT_PATH%\%INPUT_PROTO_FILE% "pb.cc"
 goto :eof
 
 :FixCompileWarning
 set FIX_FILE=%1
 set FILE_PATH=%~p2
-set FILE_NAME=%~nx2
+set FILE_NAME=%~n2.%~3
 
 pushd %FILE_PATH%
 copy /b %FIX_FILE%+%FILE_NAME% %FILE_NAME%.tmp
