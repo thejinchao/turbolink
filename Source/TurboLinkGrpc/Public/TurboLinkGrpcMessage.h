@@ -8,20 +8,7 @@ struct FGrpcMessage
 	GENERATED_USTRUCT_BODY()
 };
 
-USTRUCT(BlueprintType)
-struct FInt64
-{
-	GENERATED_BODY()
-
-	int64 Value;
-
-	operator int64() const { return Value; }
-
-	FInt64() { this->Value = 0; }
-	FInt64(const int64& _Value) { this->Value = _Value; }
-};
-
-USTRUCT(BlueprintType)
+USTRUCT(BlueprintType, meta = (HasNativeMake = "TurboLinkGrpc.TurboLinkGrpcUtilities.MakeUInt64"))
 struct FUInt64
 {
 	GENERATED_BODY()
@@ -34,7 +21,7 @@ struct FUInt64
 	FUInt64(const uint64& _Value) { this->Value = _Value; }
 };
 
-USTRUCT(BlueprintType)
+USTRUCT(BlueprintType, meta = (HasNativeMake = "TurboLinkGrpc.TurboLinkGrpcUtilities.CreateDouble64"))
 struct FDouble64
 {
 	GENERATED_BODY()
@@ -47,7 +34,7 @@ struct FDouble64
 	FDouble64(const double& _Value) { this->Value = _Value; }
 };
 
-USTRUCT(BlueprintType)
+USTRUCT(BlueprintType, meta = (HasNativeMake = "TurboLinkGrpc.TurboLinkGrpcUtilities.MakeUInt32"))
 struct FUInt32
 {
 	GENERATED_BODY()
