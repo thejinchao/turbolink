@@ -27,10 +27,10 @@ public:
 		return FUInt64{ FCString::Strtoui64(*Value, nullptr, Base) };
 	}
 
-	UFUNCTION(BlueprintPure, Category = "TurboLink", DisplayName = "UInt64 -> String")
-	static FString CastUInt64ToString(const FUInt64& In)
+	UFUNCTION(BlueprintPure, Category = "TurboLink", DisplayName = "Break UInt64")
+	static void BreakUInt64(const FUInt64& UInt64, FString& Value)
 	{
-		return FString::Printf(TEXT("%llu"), In.Value);
+		Value = FString::Printf(TEXT("%llu"), UInt64.Value);
 	}
 
 	//wrap class for uint32
@@ -40,23 +40,23 @@ public:
 		return FUInt32{ static_cast<uint32>((FCString::Strtoui64(*Value, nullptr, Base) & 0xFFFFFFFFull)) };
 	}
 
-	UFUNCTION(BlueprintPure, Category = "TurboLink", DisplayName = "UInt32 -> String")
-	static FString CastUInt32ToString(const FUInt32& In, int Base = 10)
+	UFUNCTION(BlueprintPure, Category = "TurboLink", DisplayName = "Break UInt32")
+	static void BreakUInt32(const FUInt32& UInt32, FString& Value)
 	{
-		return FString::Printf(TEXT("%ud"), In.Value);
+		Value = FString::Printf(TEXT("%ud"), UInt32.Value);
 	}
 
 	//wrap class for double
-	UFUNCTION(BlueprintPure, Category = "TurboLink", DisplayName = "Create Double64")
-	static FDouble64 CreateDouble64(FString Value)
+	UFUNCTION(BlueprintPure, Category = "TurboLink", DisplayName = "Make Double64")
+	static FDouble64 MakeDouble64(FString Value)
 	{
 		return FDouble64{ FCString::Atod(*Value) };
 	}
 
-	UFUNCTION(BlueprintPure, Category = "TurboLink", DisplayName = "Double64 -> String")
-	static FString CastDouble64ToString(const FDouble64& In)
+	UFUNCTION(BlueprintPure, Category = "TurboLink", DisplayName = "Break Double64")
+	static void BreakDouble64(const FDouble64& Double64, FString& Value)
 	{
-		return FString::Printf(TEXT("%lf"), In.Value);
+		Value = FString::Printf(TEXT("%lf"), Double64.Value);
 	}
 
 	// Returns true if A is equal to B (A == B)
