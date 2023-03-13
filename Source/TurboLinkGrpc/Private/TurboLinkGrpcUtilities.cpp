@@ -1,15 +1,27 @@
 #include "TurboLinkGrpcUtilities.h"
 #include "TurboLinkGrpcModule.h"
+#include "Kismet/GameplayStatics.h"
 
-UTurboLinkGrpcManager* UTurboLinkGrpcUtilities::GetTurboLinkGrpcManager()
+UTurboLinkGrpcManager* UTurboLinkGrpcUtilities::GetTurboLinkGrpcManager(UObject* WorldContextObject)
 {
-    FTurboLinkGrpcModule* turboLinkModule = FModuleManager::GetModulePtr<FTurboLinkGrpcModule>("TurboLinkGrpc");
-    if (turboLinkModule == nullptr)
-    {
-        turboLinkModule = &(FModuleManager::LoadModuleChecked<FTurboLinkGrpcModule>("TurboLinkGrpc"));
-    }
+	if (WorldContextObject == nullptr)
+	{
+		TIndirectArray<FWorldContext> Worlds = GEngine->GetWorldContexts();
+		for (auto World : Worlds)
+		{
+			if (World.WorldType == EWorldType::Game || World.WorldType == EWorldType::PIE)
+			{
+				WorldContextObject = World.World();
+				break;
+			}
+		}
+	}
+	if (WorldContextObject == nullptr)	return nullptr;
 
-    return turboLinkModule->GetTurboLinkGrpcManager();
+	UGameInstance* GameInstance = UGameplayStatics::GetGameInstance(WorldContextObject);
+	if (GameInstance == nullptr) return nullptr;
+
+	return GameInstance->GetSubsystem<UTurboLinkGrpcManager>();
 }
 
 UTurboLinkGrpcConfig* UTurboLinkGrpcUtilities::GetTurboLinkGrpcConfig()

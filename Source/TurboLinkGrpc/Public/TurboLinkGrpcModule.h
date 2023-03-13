@@ -7,7 +7,7 @@
 
 DECLARE_LOG_CATEGORY_EXTERN(LogTurboLink, Log, All);
 
-class TURBOLINKGRPC_API FTurboLinkGrpcModule : public FTickableGameObject, public IModuleInterface
+class TURBOLINKGRPC_API FTurboLinkGrpcModule : public IModuleInterface
 {
 	friend class UTurboLinkGrpcManager;
 public:
@@ -15,17 +15,9 @@ public:
 	virtual void StartupModule() override;
 	virtual void ShutdownModule() override;
 
-	// FTickableGameObject implementation
-	bool IsTickable() const override { return TurboLinkGrpcManager!=nullptr; }
-	TStatId GetStatId() const override { return TStatId();	}
-	void Tick(float DeltaTime) override;
-
-	UTurboLinkGrpcManager* GetTurboLinkGrpcManager();
-
 	UTurboLinkGrpcConfig* GetTurboLinkGrpcConfig();
 	
 private:
-	UTurboLinkGrpcManager* TurboLinkGrpcManager;
 #if WITH_EDITOR
 	TSharedPtr<FTurboLinkGrpcConfig> ConfigInstance;
 #else

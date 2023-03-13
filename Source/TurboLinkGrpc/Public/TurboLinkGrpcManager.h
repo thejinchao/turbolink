@@ -7,21 +7,25 @@
 class UGrpcService;
 class GrpcContext;
 
-UCLASS(ClassGroup=TurboLink)
-class TURBOLINKGRPC_API UTurboLinkGrpcManager : public UObject
+UCLASS(ClassGroup=TurboLink, meta = (DisplayName = " TurboLink gRPC Manager"))
+class TURBOLINKGRPC_API UTurboLinkGrpcManager : public UGameInstanceSubsystem, public FTickableGameObject
 {
 	GENERATED_BODY()
 
 public:
-	void InitManager();
-	void Shutdown();
-	void Tick(float DeltaTime);
+	//override function from UGameInstanceSubsystem
+	virtual void Initialize(FSubsystemCollectionBase& Collection);
+	virtual void Deinitialize();
+
+	//override from FTickableGameObject
+	virtual bool IsTickable() const override { return bIsInitialized; }
+	virtual void Tick(float DeltaTime) override;
+	virtual TStatId GetStatId() const override 	{ return GetStatID(); }
 
 	void* GetNextTag(TSharedPtr<GrpcContext> Context);
 	void RemoveTag(void* Tag);
 
 	FGrpcContextHandle GetNextContextHandle();
-
 public:
 	class Private;
 	Private* const d=nullptr;

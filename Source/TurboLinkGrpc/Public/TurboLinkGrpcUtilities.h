@@ -14,8 +14,8 @@ class TURBOLINKGRPC_API UTurboLinkGrpcUtilities : public UBlueprintFunctionLibra
 	GENERATED_BODY()
 	
 public:
-	UFUNCTION(BlueprintPure, Category = "TurboLink")
-	static class UTurboLinkGrpcManager* GetTurboLinkGrpcManager();
+	UFUNCTION(BlueprintPure, Category = "TurboLink", meta = (WorldContext = "WorldContextObject"))
+	static class UTurboLinkGrpcManager* GetTurboLinkGrpcManager(UObject* WorldContextObject);
 
 	UFUNCTION(BlueprintPure, Category = "TurboLink")
 	static class UTurboLinkGrpcConfig* GetTurboLinkGrpcConfig();

@@ -34,17 +34,18 @@ void GrpcLogEntry(gpr_log_func_args* args)
 }
 
 FTurboLinkGrpcModule::FTurboLinkGrpcModule()
-	: TurboLinkGrpcManager(nullptr)
 {
+	UE_LOG(LogTurboLink, Log, TEXT("Construct TurboLinkGrpcModule[%p]"), this);
 }
 
 FTurboLinkGrpcModule::~FTurboLinkGrpcModule()
 {
+	UE_LOG(LogTurboLink, Log, TEXT("Destruct TurboLinkGrpcModule[%p]"), this);
 }
 
 void FTurboLinkGrpcModule::StartupModule()
 {
-	UE_LOG(LogTurboLink, Log, TEXT("Startup TurboLink Module"));
+	UE_LOG(LogTurboLink, Log, TEXT("Startup TurboLinkGrpcModule"));
 
 	gpr_set_log_verbosity(GPR_LOG_SEVERITY_DEBUG);
 	gpr_set_log_function(GrpcLogEntry);
@@ -63,30 +64,13 @@ void FTurboLinkGrpcModule::StartupModule()
 
 void FTurboLinkGrpcModule::ShutdownModule()
 {
-	UE_LOG(LogTurboLink, Log, TEXT("Shutdown TurboLink Module"));
-	if (TurboLinkGrpcManager) 
-	{
-		TurboLinkGrpcManager->RemoveFromRoot();
-		TurboLinkGrpcManager = nullptr;
-	}
+	UE_LOG(LogTurboLink, Log, TEXT("Shutdown TurboLinkGrpcModule"));
 
 #if WITH_EDITOR
 	ConfigInstance->UnregisterSettings();
 #else
 	ConfigInstance->RemoveFromRoot();
 #endif
-}
-
-UTurboLinkGrpcManager* FTurboLinkGrpcModule::GetTurboLinkGrpcManager(void)
-{
-	if (TurboLinkGrpcManager)
-	{
-		return TurboLinkGrpcManager;
-	}
-
-	TurboLinkGrpcManager = NewObject<UTurboLinkGrpcManager>();
-	TurboLinkGrpcManager->AddToRoot();
-	return TurboLinkGrpcManager;
 }
 
 UTurboLinkGrpcConfig* FTurboLinkGrpcModule::GetTurboLinkGrpcConfig()
@@ -96,14 +80,6 @@ UTurboLinkGrpcConfig* FTurboLinkGrpcModule::GetTurboLinkGrpcConfig()
 #else
 	return ConfigInstance;
 #endif
-}
-
-void FTurboLinkGrpcModule::Tick(float DeltaTime)
-{
-	if (TurboLinkGrpcManager)
-	{
-		TurboLinkGrpcManager->Tick(DeltaTime);
-	}
 }
 
 #undef LOCTEXT_NAMESPACE
