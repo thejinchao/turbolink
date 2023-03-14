@@ -2,13 +2,14 @@
 #include "CoreMinimal.h"
 #include "TurboLinkGrpcMessage.generated.h"
 
-USTRUCT()
+USTRUCT(BlueprintType)
 struct FGrpcMessage
 {
-	GENERATED_USTRUCT_BODY()
+	GENERATED_BODY()
 };
 
-USTRUCT(BlueprintType, meta = (HasNativeMake = "TurboLinkGrpc.TurboLinkGrpcUtilities.MakeUInt64", 
+USTRUCT(BlueprintType, meta = (
+	HasNativeMake = "TurboLinkGrpc.TurboLinkGrpcUtilities.MakeUInt64", 
 	HasNativeBreak = "TurboLinkGrpc.TurboLinkGrpcUtilities.BreakUInt64"))
 struct FUInt64
 {
@@ -22,7 +23,8 @@ struct FUInt64
 	FUInt64(const uint64& _Value) { this->Value = _Value; }
 };
 
-USTRUCT(BlueprintType, meta = (HasNativeMake = "TurboLinkGrpc.TurboLinkGrpcUtilities.MakeDouble64",
+USTRUCT(BlueprintType, meta = (
+	HasNativeMake = "TurboLinkGrpc.TurboLinkGrpcUtilities.MakeDouble64",
 	HasNativeBreak = "TurboLinkGrpc.TurboLinkGrpcUtilities.BreakDouble64"))
 struct FDouble64
 {
@@ -36,7 +38,8 @@ struct FDouble64
 	FDouble64(const double& _Value) { this->Value = _Value; }
 };
 
-USTRUCT(BlueprintType, meta = (HasNativeMake = "TurboLinkGrpc.TurboLinkGrpcUtilities.MakeUInt32", 
+USTRUCT(BlueprintType, meta = (
+	HasNativeMake = "TurboLinkGrpc.TurboLinkGrpcUtilities.MakeUInt32", 
 	HasNativeBreak = "TurboLinkGrpc.TurboLinkGrpcUtilities.BreakUInt32"))
 struct FUInt32
 {

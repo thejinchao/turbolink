@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
 #include "TurboLinkGrpcMessage.h"
+#include "TurboLinkGrpcClient.h"
 #include "TurboLinkGrpcUtilities.generated.h"
 
 
@@ -66,3 +67,4 @@ public:
 		return A.Value == B.Value;
 	}
 };
+
