@@ -2,10 +2,35 @@
 #include "CoreMinimal.h"
 #include "TurboLinkGrpcMessage.generated.h"
 
+#define DECLARE_JSON_FUNCTIONS() \
+      TURBOLINKGRPC_API virtual FString ToJsonString() const override; \
+      TURBOLINKGRPC_API virtual bool FromJsonString(const FString& JsonString) override;
+
+#define DEFINE_JSON_FUNCTIONS(StructName, GrpcStructName) \
+FString StructName::ToJsonString() const \
+{ \
+      GrpcStructName message; \
+      TURBOLINK_TO_GRPC(this, &message); \
+      std::string json_string; \
+      ::google::protobuf::util::MessageToJsonString(message,  &json_string); \
+      return FString(UTF8_TO_TCHAR(json_string.c_str())); \
+} \
+bool StructName::FromJsonString(const FString& JsonString) \
+{ \
+	GrpcStructName grpcMessage; \
+	if(!::google::protobuf::util::JsonStringToMessage(TCHAR_TO_UTF8(*JsonString), &grpcMessage).ok()) return false; \
+	GRPC_TO_TURBOLINK(&grpcMessage, this); \
+	return true; \
+}
+
 USTRUCT(BlueprintType)
 struct FGrpcMessage
 {
 	GENERATED_BODY()
+	virtual ~FGrpcMessage() = default;
+
+	virtual FString ToJsonString() const { return FString(TEXT("{}")); }
+	virtual bool FromJsonString(const FString& JsonString) { return false; }
 };
 
 USTRUCT(BlueprintType, meta = (
