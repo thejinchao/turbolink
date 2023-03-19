@@ -68,3 +68,21 @@ public:
 	}
 };
 
+UCLASS()
+class TURBOLINKGRPC_API UGrpcMessageToJsonFunctionLibrary : public UBlueprintFunctionLibrary
+{
+	GENERATED_BODY()
+
+public:
+	UFUNCTION(BlueprintCallable, CustomThunk, meta = (BlueprintInternalUseOnly = "true", CustomStructureParam = "GrpcMessage"))
+	static FString GrpcMessageToJsonInternal(UStruct* GrpcMessage);
+
+	DECLARE_FUNCTION(execGrpcMessageToJsonInternal);
+	static FString GrpcMessageToJson_Impl(void* StructPtr, FStructProperty* StructProperty);
+
+	UFUNCTION(BlueprintCallable, CustomThunk, meta = (BlueprintInternalUseOnly = "true", CustomStructureParam = "ReturnMessage"))
+	static bool JsonToGrpcMessageInternal(const FString& JsonString, UStruct*& ReturnMessage);
+
+	DECLARE_FUNCTION(execJsonToGrpcMessageInternal);
+	static bool JsonToGrpcMessage_Impl(const FString& JsonString, void* StructPtr, FStructProperty* StructProperty);
+};

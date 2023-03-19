@@ -37,6 +37,7 @@ if not exist %CPP_OUTPUT_PATH% mkdir %CPP_OUTPUT_PATH%
  --cpp_out="%CPP_OUTPUT_PATH%" ^
  --plugin=protoc-gen-grpc="%GRPC_CPP_PLUGIN_EXE_PATH%" --grpc_out=%CPP_OUTPUT_PATH% ^
  --plugin=protoc-gen-turbolink="%TURBOLINK_PLUGIN_PATH%" --turbolink_out="%OUTPUT_PATH%" ^
+ --turbolink_opt="GenerateJsonCode=true" ^
  %INPUT_PROTO_FILE%
 
 :: fix protobuf compile warning 
