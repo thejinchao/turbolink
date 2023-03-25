@@ -1,18 +1,7 @@
 #pragma once
 #include "CoreMinimal.h"
 #include "K2Node.h"
-#include "TurboLinkJsonToMessageNode.generated.h"
-
-//--Hack begin...
-UENUM(BlueprintType)
-enum class EJsonToMessageDebugType : uint8
-{
-	NotAssigned = 0,
-
-	HelloRequest = 1,
-	NowResponse = 2,
-};
-//--Hack end...
+#include "GrpcMessageK2Node_JsonToMessage.generated.h"
 
 UCLASS()
 class TURBOLINKEDITOR_API UJsonToGrpcMessageNode : public UK2Node

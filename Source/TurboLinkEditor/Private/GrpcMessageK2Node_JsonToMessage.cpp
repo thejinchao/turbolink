@@ -1,17 +1,13 @@
-#include "TurbolinkJsonToMessageNode.h"
+#include "GrpcMessageK2Node_JsonToMessage.h"
 #include "EdGraphSchema_K2.h"
 #include "BlueprintNodeSpawner.h"
 #include "BlueprintActionDatabaseRegistrar.h"
 #include "K2Node_CallFunction.h"
 #include "KismetCompiler.h"
 #include "Kismet2/BlueprintEditorUtils.h"
-#include "K2Node_MakeStruct.h"
 #include "TurboLinkGrpcMessage.h"
 #include "TurboLinkGrpcUtilities.h"
-
-//--Hack begin...
-#include "SGreeter/GreeterMessage.h"
-//--Hack end...
+#include "GrpcMessageTagsManager.h"
 
 #define LOCTEXT_NAMESPACE "K2Node_JsonToGrpcMessageNode"
 
@@ -60,8 +56,7 @@ void UJsonToGrpcMessageNode::AllocateDefaultPins()
 	UEdGraphPin* thenPin = CreatePin(EGPD_Output, UEdGraphSchema_K2::PC_Exec, UEdGraphSchema_K2::PN_Then);
 
 	// Add Message type pin
-	UEnum* messageTypeEnum = FindObjectChecked<UEnum>(ANY_PACKAGE, TEXT("EJsonToMessageDebugType"), true);
-	UEdGraphPin* messageTypePin = CreatePin(EGPD_Input, UEdGraphSchema_K2::PC_Byte, messageTypeEnum, FK2Node_JsonToGrpcMessageHelper::MessageTypePinName);
+	UEdGraphPin* messageTypePin = CreatePin(EGPD_Input, UEdGraphSchema_K2::PC_Struct, FGrpcMessageTag::StaticStruct(), FK2Node_JsonToGrpcMessageHelper::MessageTypePinName);
 	messageTypePin->bNotConnectable = 1;
 
 	// Add String pin
@@ -129,25 +124,25 @@ void UJsonToGrpcMessageNode::OnMessageTypeChanged()
 
 	// Mark dirty
 	FBlueprintEditorUtils::MarkBlueprintAsModified(GetBlueprint());
-
 }
 
-//--Hack begin
 UScriptStruct* UJsonToGrpcMessageNode::GetMessageScriptStruct(const TArray<UEdGraphPin*>* InPinsToSearch)
 {
 	UScriptStruct* returnStruct = nullptr;
 	UEdGraphPin* inputPin = GetInputPin(FK2Node_JsonToGrpcMessageHelper::MessageTypePinName, InPinsToSearch);
-	if (inputPin->DefaultValue == "HelloRequest")
+	if (inputPin == nullptr) return nullptr;
+
+	//find message tag
+	FGrpcMessageTag tempMessageTag;
+	tempMessageTag.FromExportString(inputPin->DefaultValue, PPF_SerializedAsImportText);
+
+	TSharedPtr<FGrpcMessageTag> grpcMessageTag = UGrpcMessageTagsManager::Get().FindGrpcMessageTag(tempMessageTag.TagName, true);
+	if (grpcMessageTag.IsValid())
 	{
-		returnStruct = FGrpcGreeterHelloRequest::StaticStruct();
-	}
-	else if (inputPin->DefaultValue == "NowResponse")
-	{
-		returnStruct = FGrpcGreeterNowResponse::StaticStruct();
+		returnStruct = grpcMessageTag->MessageScriptStruct;
 	}
 	return returnStruct;
 }
-//--Hack end
 
 UEdGraphPin* UJsonToGrpcMessageNode::GetThenPin() const
 {
@@ -201,7 +196,6 @@ void UJsonToGrpcMessageNode::ExpandNode(FKismetCompilerContext& CompilerContext,
 	Super::ExpandNode(CompilerContext, SourceGraph);
 
 	UEdGraphPin* execPin = GetExecPin();
-	UEdGraphPin* messageTypePin = GetInputPin(FK2Node_JsonToGrpcMessageHelper::MessageTypePinName);
 	UEdGraphPin* jsonStringPin = GetInputPin(FK2Node_JsonToGrpcMessageHelper::JsonStringPinName);
 	UEdGraphPin* returnMessagePin = GetReturnMessagePin();
 	UEdGraphPin* returnValuePin = GetResultPin();
@@ -251,6 +245,5 @@ void UJsonToGrpcMessageNode::ExpandNode(FKismetCompilerContext& CompilerContext,
 	// break any links to the expanded node
 	BreakAllNodeLinks();
 }
-
 
 #undef LOCTEXT_NAMESPACE

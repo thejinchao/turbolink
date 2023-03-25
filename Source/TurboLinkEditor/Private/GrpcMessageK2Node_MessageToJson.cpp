@@ -1,4 +1,4 @@
-#include "TurbolinkMessageToJsonNode.h"
+#include "GrpcMessageK2Node_MessageToJson.h"
 #include "EdGraphSchema_K2.h"
 #include "BlueprintNodeSpawner.h"
 #include "BlueprintActionDatabaseRegistrar.h"

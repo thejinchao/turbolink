@@ -1,7 +1,7 @@
 #pragma once
 #include "CoreMinimal.h"
 #include "K2Node.h"
-#include "TurboLinkMessageToJsonNode.generated.h"
+#include "GrpcMessageK2Node_MessageToJson.generated.h"
 
 UCLASS()
 class TURBOLINKEDITOR_API UGrpcMessageToJsonNode : public UK2Node

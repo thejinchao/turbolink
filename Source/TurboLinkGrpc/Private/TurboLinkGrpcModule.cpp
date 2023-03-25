@@ -1,13 +1,16 @@
 #include "TurboLinkGrpcModule.h"
 #include "TurboLinkGrpcManager.h"
 
+#include "UObject/UObjectGlobals.h"
 #include "Misc/ConfigCacheIni.h"
+#include "Misc/Char.h"
 #include "HAL/ExceptionHandling.h"
 #include "Logging/LogMacros.h"
 #include "Logging/LogVerbosity.h"
 
 #include "grpc/grpc.h"
 #include "grpc/support/log.h"
+#include "google/protobuf/descriptor_database.h"
 
 #define LOCTEXT_NAMESPACE "FTurboLinkGrpcModule"
 
@@ -60,7 +63,51 @@ void FTurboLinkGrpcModule::StartupModule()
 
 	ConfigInstance->LoadConfig();
 #endif
+
+#if WITH_EDITOR
+	//register grpc message script struct
+	this->RegisterAllGrpcMessageScriptStruct();
+#endif
 }
+
+#if WITH_EDITOR
+const TMap<FName, UScriptStruct*>& FTurboLinkGrpcModule::GetMessageStructMap()
+{
+	return GrpcMessageStructMap;
+}
+
+void FTurboLinkGrpcModule::RegisterAllGrpcMessageScriptStruct()
+{
+	google::protobuf::DescriptorDatabase* protobufDataBase = google::protobuf::DescriptorPool::internal_generated_database();
+	if (protobufDataBase == nullptr) return;
+
+	std::vector<std::string> msgNames;
+	protobufDataBase->FindAllMessageNames(&msgNames);
+	for (size_t i = 0; i < msgNames.size(); i++)
+	{
+		FString rpcMessageName(UTF8_TO_TCHAR(msgNames[i].c_str()));
+
+		TArray<FString> subNames;
+		rpcMessageName.ParseIntoArray(subNames, TEXT("."), true);
+
+		FString grpcMessageName = "Grpc";
+		for (int32 index = 0; index < subNames.Num(); index++)
+		{
+			FString subName = subNames[index];
+			grpcMessageName += TChar<FString::ElementType>::ToUpper(subName[0]);
+			grpcMessageName += subName.RightChop(1);
+		}
+
+		//add message script struct to map
+		UScriptStruct* scriptStruct = FindObject<UScriptStruct>(ANY_PACKAGE, *grpcMessageName, true);
+		if (scriptStruct)
+		{
+			FName grpcMessageTagName = FName(*(scriptStruct->GetDisplayNameText().ToString()));
+			GrpcMessageStructMap.Add(grpcMessageTagName, scriptStruct);
+		}
+	}
+}
+#endif
 
 void FTurboLinkGrpcModule::ShutdownModule()
 {

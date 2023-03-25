@@ -17,6 +17,15 @@ public:
 
 	UTurboLinkGrpcConfig* GetTurboLinkGrpcConfig();
 	
+#if WITH_EDITOR
+public:
+	const TMap<FName, UScriptStruct*>& GetMessageStructMap();
+
+private:
+	void RegisterAllGrpcMessageScriptStruct();
+	TMap<FName, UScriptStruct*> GrpcMessageStructMap;
+#endif
+
 private:
 #if WITH_EDITOR
 	TSharedPtr<FTurboLinkGrpcConfig> ConfigInstance;

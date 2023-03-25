@@ -23,7 +23,8 @@ public class TurboLinkEditor : ModuleRules
 				"GraphEditor",
 				"Kismet",
 				"PropertyEditor",
-
+				"InputCore",
+				"EditorStyle",
 				"TurboLinkGrpc"
 			}
 		);
