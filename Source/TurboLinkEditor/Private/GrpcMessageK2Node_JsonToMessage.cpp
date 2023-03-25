@@ -49,6 +49,21 @@ FText UJsonToGrpcMessageNode::GetTooltipText() const
 	return FText::FromString(TEXT("Convert Json String to GrpcMessage"));
 }
 
+void UJsonToGrpcMessageNode::GetPinHoverText(const UEdGraphPin& Pin, FString& HoverTextOut) const
+{
+	if (Pin.PinName == FK2Node_JsonToGrpcMessageHelper::ReturnMessagePinName)
+	{
+		//set friend message name
+		UScriptStruct* scriptStruct = GetMessageScriptStruct();
+		if (scriptStruct != nullptr)
+		{
+			HoverTextOut = FString::Printf(TEXT("Return Message\n%s"), *(scriptStruct->GetFName().ToString()));
+			return;
+		}
+	}
+	Super::GetPinHoverText(Pin, HoverTextOut);
+}
+
 void UJsonToGrpcMessageNode::AllocateDefaultPins()
 {
 	// Add execution pins
@@ -67,6 +82,7 @@ void UJsonToGrpcMessageNode::AllocateDefaultPins()
 	
 	// Add result pin
 	UEdGraphPin* returnValuePin = CreatePin(EGPD_Output, UEdGraphSchema_K2::PC_Boolean, UEdGraphSchema_K2::PN_ReturnValue);
+	returnValuePin->PinFriendlyName = FText::FromString(TEXT("IsSuccess"));
 
 	Super::AllocateDefaultPins();
 }
@@ -126,7 +142,7 @@ void UJsonToGrpcMessageNode::OnMessageTypeChanged()
 	FBlueprintEditorUtils::MarkBlueprintAsModified(GetBlueprint());
 }
 
-UScriptStruct* UJsonToGrpcMessageNode::GetMessageScriptStruct(const TArray<UEdGraphPin*>* InPinsToSearch)
+UScriptStruct* UJsonToGrpcMessageNode::GetMessageScriptStruct(const TArray<UEdGraphPin*>* InPinsToSearch) const
 {
 	UScriptStruct* returnStruct = nullptr;
 	UEdGraphPin* inputPin = GetInputPin(FK2Node_JsonToGrpcMessageHelper::MessageTypePinName, InPinsToSearch);

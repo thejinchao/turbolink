@@ -61,6 +61,22 @@ FText UGrpcMessageToJsonNode::GetTooltipText() const
 	return FText::FromString(TEXT("Convert GrpcMessage to Json String"));
 }
 
+void UGrpcMessageToJsonNode::GetPinHoverText(const UEdGraphPin& Pin, FString& HoverTextOut) const
+{
+	if (Pin.PinName == FK2Node_GrpcMessageToJsonHelper::MessagePinName)
+	{
+		//set friend message name
+		bool bConnected = false;
+		UScriptStruct* scriptStruct = GetLinkedStruct(bConnected);
+		if (scriptStruct != nullptr && bConnected)
+		{
+			HoverTextOut = FString::Printf(TEXT("Grpc Message\n%s"), *(scriptStruct->GetFName().ToString()));
+			return;
+		}
+	}
+	Super::GetPinHoverText(Pin, HoverTextOut);
+}
+
 void UGrpcMessageToJsonNode::AllocateDefaultPins()
 {
 	// Add execution pins

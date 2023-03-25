@@ -22,6 +22,7 @@ public:
 	virtual void PinConnectionListChanged(UEdGraphPin* Pin);
 	void ReallocatePinsDuringReconstruction(TArray<UEdGraphPin*>& OldPins);
 	virtual void ExpandNode(FKismetCompilerContext& CompilerContext, UEdGraph* SourceGraph) override;
+	virtual void GetPinHoverText(const UEdGraphPin& Pin, FString& HoverTextOut) const override;
 
 	// Get the then output pin
 	UEdGraphPin* GetThenPin() const;
@@ -36,5 +37,5 @@ protected:
 	// Refresh pins when input message was changed
 	void OnMessageTypeChanged();
 	// Get message script struct
-	UScriptStruct* GetMessageScriptStruct(const TArray<UEdGraphPin*>* InPinsToSearch=nullptr);
+	UScriptStruct* GetMessageScriptStruct(const TArray<UEdGraphPin*>* InPinsToSearch=nullptr) const;
 };
