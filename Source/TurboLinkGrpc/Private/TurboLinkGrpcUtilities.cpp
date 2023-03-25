@@ -35,7 +35,7 @@ UTurboLinkGrpcConfig* UTurboLinkGrpcUtilities::GetTurboLinkGrpcConfig()
     return turboLinkModule->GetTurboLinkGrpcConfig();
 }
 
-FString UGrpcMessageToJsonFunctionLibrary::GrpcMessageToJsonInternal(UStruct* GrpcMessage)
+FString UGrpcMessageToJsonFunctionLibrary::GrpcMessageToJsonInternal(UStruct* GrpcMessage, bool bPrettyMode)
 {
 	checkf(false, TEXT("This function should not be called!"));
 	return FString(TEXT(""));
@@ -49,20 +49,22 @@ DEFINE_FUNCTION(UGrpcMessageToJsonFunctionLibrary::execGrpcMessageToJsonInternal
 	void* StructPtr = Stack.MostRecentPropertyAddress;
 	FStructProperty* StructProperty = CastField<FStructProperty>(Stack.MostRecentProperty);
 
+	P_GET_UBOOL(PrettyMode);
+
 	P_FINISH;
 	P_NATIVE_BEGIN;
-	*((FString*)RESULT_PARAM) = GrpcMessageToJson_Impl(StructPtr, StructProperty);
+	*((FString*)RESULT_PARAM) = GrpcMessageToJson_Impl(StructPtr, StructProperty, PrettyMode);
 	P_NATIVE_END;
 }
 
-FString UGrpcMessageToJsonFunctionLibrary::GrpcMessageToJson_Impl(void* StructPtr, FStructProperty* StructProperty)
+FString UGrpcMessageToJsonFunctionLibrary::GrpcMessageToJson_Impl(void* StructPtr, FStructProperty* StructProperty, bool bPrettyMode)
 {
 	bool bIsGrpcMessage = StructProperty->Struct->IsChildOf(FGrpcMessage::StaticStruct());
 	if (!bIsGrpcMessage)
 	{
 		return FString(TEXT("<errortype>"));
 	}
-	return StaticCast<FGrpcMessage*>(StructPtr)->ToJsonString();
+	return StaticCast<FGrpcMessage*>(StructPtr)->ToJsonString(bPrettyMode);
 }
 
 bool UGrpcMessageToJsonFunctionLibrary::JsonToGrpcMessageInternal(const FString& JsonString, UStruct*& ReturnMessage)

@@ -14,9 +14,11 @@
 struct FK2Node_GrpcMessageToJsonHelper
 {
 	static FName MessagePinName;
+	static FName PrettyModeName;
 };
 
 FName FK2Node_GrpcMessageToJsonHelper::MessagePinName(TEXT("GrpcMessage"));
+FName FK2Node_GrpcMessageToJsonHelper::PrettyModeName(TEXT("PrettyMode"));
 
 void UGrpcMessageToJsonNode::GetMenuActions(FBlueprintActionDatabaseRegistrar& ActionRegistrar) const
 {
@@ -67,6 +69,8 @@ void UGrpcMessageToJsonNode::AllocateDefaultPins()
 
 	// Add Message pin
 	UEdGraphPin* messagePin = CreatePin(EGPD_Input, UEdGraphSchema_K2::PC_Wildcard, FK2Node_GrpcMessageToJsonHelper::MessagePinName);
+	// Add Pretty Mode pin
+	UEdGraphPin* prettyModePin = CreatePin(EGPD_Input, UEdGraphSchema_K2::PC_Boolean, FK2Node_GrpcMessageToJsonHelper::PrettyModeName);
 
 	// return value pin
 	UEdGraphPin* returnValuePin = CreatePin(EGPD_Output, UEdGraphSchema_K2::PC_String, UEdGraphSchema_K2::PN_ReturnValue);
@@ -80,6 +84,7 @@ void UGrpcMessageToJsonNode::ExpandNode(FKismetCompilerContext& CompilerContext,
 
 	UEdGraphPin* execPin = GetExecPin();
 	UEdGraphPin* messagePin = GetInputPin(FK2Node_GrpcMessageToJsonHelper::MessagePinName);
+	UEdGraphPin* prettyModePin = GetInputPin(FK2Node_GrpcMessageToJsonHelper::PrettyModeName);
 	UEdGraphPin* returnValuePin = GetResultPin();
 	UEdGraphPin* thenPin = GetThenPin();
 
@@ -110,6 +115,7 @@ void UGrpcMessageToJsonNode::ExpandNode(FKismetCompilerContext& CompilerContext,
 	// get pins from call function node
 	UEdGraphPin* callFunction_ExecPin = callFunctionNode->GetExecPin();
 	UEdGraphPin* callFunction_MessagePin = callFunctionNode->FindPinChecked(FK2Node_GrpcMessageToJsonHelper::MessagePinName);
+	UEdGraphPin* callFunction_PrettyModePin = callFunctionNode->FindPinChecked(FK2Node_GrpcMessageToJsonHelper::PrettyModeName);
 	UEdGraphPin* callFunction_ReturnValuePin = callFunctionNode->GetReturnValuePin();
 	UEdGraphPin* callFunction_ThenPin = callFunctionNode->GetThenPin();
 
@@ -121,6 +127,8 @@ void UGrpcMessageToJsonNode::ExpandNode(FKismetCompilerContext& CompilerContext,
 		CompilerContext.MovePinLinksToIntermediate(*messagePin, *callFunction_MessagePin);
 		callFunction_MessagePin->PinType = linkedMessageStruct->PinType;
 	}
+	// pretty mode pin
+	CompilerContext.MovePinLinksToIntermediate(*prettyModePin, *callFunction_PrettyModePin);
 	// return value pin
 	CompilerContext.MovePinLinksToIntermediate(*returnValuePin, *callFunction_ReturnValuePin);
 	//exec pin 

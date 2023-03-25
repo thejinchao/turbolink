@@ -3,17 +3,19 @@
 #include "TurboLinkGrpcMessage.generated.h"
 
 #define DECLARE_JSON_FUNCTIONS() \
-      TURBOLINKGRPC_API virtual FString ToJsonString() const override; \
+      TURBOLINKGRPC_API virtual FString ToJsonString(bool bPrettyMode) const override; \
       TURBOLINKGRPC_API virtual bool FromJsonString(const FString& JsonString) override;
 
 #define DEFINE_JSON_FUNCTIONS(StructName, GrpcStructName) \
-FString StructName::ToJsonString() const \
+FString StructName::ToJsonString(bool bPrettyMode) const \
 { \
-      GrpcStructName message; \
-      TURBOLINK_TO_GRPC(this, &message); \
-      std::string json_string; \
-      ::google::protobuf::util::MessageToJsonString(message,  &json_string); \
-      return FString(UTF8_TO_TCHAR(json_string.c_str())); \
+	GrpcStructName message; \
+	TURBOLINK_TO_GRPC(this, &message); \
+	std::string json_string; \
+	::google::protobuf::util::JsonOptions options; \
+	options.add_whitespace=bPrettyMode; \
+	::google::protobuf::util::MessageToJsonString(message,  &json_string, options); \
+	return FString(UTF8_TO_TCHAR(json_string.c_str())); \
 } \
 bool StructName::FromJsonString(const FString& JsonString) \
 { \
@@ -29,7 +31,7 @@ struct FGrpcMessage
 	GENERATED_BODY()
 	virtual ~FGrpcMessage() = default;
 
-	virtual FString ToJsonString() const { return FString(TEXT("{}")); }
+	virtual FString ToJsonString(bool bPrettyMode) const { return FString(TEXT("{}")); }
 	virtual bool FromJsonString(const FString& JsonString) { return false; }
 };
 

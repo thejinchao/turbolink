@@ -8,7 +8,6 @@
 #include "TurboLinkGrpcClient.h"
 #include "TurboLinkGrpcUtilities.generated.h"
 
-
 UCLASS()
 class TURBOLINKGRPC_API UTurboLinkGrpcUtilities : public UBlueprintFunctionLibrary
 {
@@ -75,10 +74,10 @@ class TURBOLINKGRPC_API UGrpcMessageToJsonFunctionLibrary : public UBlueprintFun
 
 public:
 	UFUNCTION(BlueprintCallable, CustomThunk, meta = (BlueprintInternalUseOnly = "true", CustomStructureParam = "GrpcMessage"))
-	static FString GrpcMessageToJsonInternal(UStruct* GrpcMessage);
+	static FString GrpcMessageToJsonInternal(UStruct* GrpcMessage, bool PrettyMode);
 
 	DECLARE_FUNCTION(execGrpcMessageToJsonInternal);
-	static FString GrpcMessageToJson_Impl(void* StructPtr, FStructProperty* StructProperty);
+	static FString GrpcMessageToJson_Impl(void* StructPtr, FStructProperty* StructProperty, bool bPrettyMode);
 
 	UFUNCTION(BlueprintCallable, CustomThunk, meta = (BlueprintInternalUseOnly = "true", CustomStructureParam = "ReturnMessage"))
 	static bool JsonToGrpcMessageInternal(const FString& JsonString, UStruct*& ReturnMessage);
