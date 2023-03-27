@@ -65,6 +65,27 @@ public:
 	{
 		return A.Value == B.Value;
 	}
+
+	// Generate grpc message from json string
+	template<typename T>
+	static TSharedPtr<T> NewGrpcMessageFromJsonString(const FString& JsonString)
+	{
+		UScriptStruct* scriptStruct = T::StaticStruct();
+		bool bIsGrpcMessage = scriptStruct->IsChildOf(FGrpcMessage::StaticStruct());
+		if (!bIsGrpcMessage) return TSharedPtr<T>();
+
+		T* newMessage = (T*)FMemory::Malloc(scriptStruct->GetStructureSize());
+		scriptStruct->InitializeStruct(newMessage);
+		bool isSuccess = newMessage->FromJsonString(JsonString);
+
+		//delete memory if failed!
+		if (!isSuccess)
+		{
+			FMemory::Free(newMessage);
+			return TSharedPtr<T>();
+		}
+		return MakeShareable<T>(newMessage);
+	}
 };
 
 UCLASS()
