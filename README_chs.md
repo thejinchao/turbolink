@@ -127,6 +127,16 @@ GreeterService->CallHello(HelloRequest,
 ![async-node](https://github.com/thejinchao/turbolink/wiki/image/async-node.png)  
 当前异步蓝图节点还无法支持客户端流式以及服务器端流式类型的gRPC函数
 
+### 4. 和json互转
+在某些情况下，我们需要将protobuf消息和json字符串互相转换，通过turbolink插件，这种转换也可以在蓝图中操作
+#### 4.1 Grpc message to json string
+![message-to-json](https://github.com/thejinchao/turbolink/wiki/image/message_to_json.png)  
+结果是`{"name" : "neo"}`
+
+#### 4.2 Json string to Grpc message
+![json-to-message](https://github.com/thejinchao/turbolink/wiki/image/json_to_message.png)  
+
+
 ## 尚不支持的特性
 TurboLink的设计目的之一，就是为了能够在蓝图中使用gRPC函数，为了达到这一目的，某些`proto3`中的特性还不被支持。
 * 不要使用[`optional`](https://protobuf.dev/programming-guides/proto3/#specifying-field-rules) 类型的字段. 主要是我觉得在蓝图中实现'has_xxx'或者'clean_xxx'这样的特性会导致代码的复杂度大幅度增加，所以暂时没有实现这一特性的计划

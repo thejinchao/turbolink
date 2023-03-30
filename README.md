@@ -128,6 +128,16 @@ In the blueprint, if you need to quickly test some gRPC functions, or use some o
 ![async-node](https://github.com/thejinchao/turbolink/wiki/image/async-node.png)  
 Currently, the async node cannot support gRPC functions of client stream and server stream types.
 
+### 4. Conver with json string
+In some cases, we need to convert protobuf messages and json strings to each other. Through the turbolink, this conversion can also be operated in the blueprint
+#### 4.1 Grpc message to json string
+![message-to-json](https://github.com/thejinchao/turbolink/wiki/image/message_to_json.png)  
+The result is `{"name" : "neo"}`
+
+#### 4.2 Json string to Grpc message
+![json-to-message](https://github.com/thejinchao/turbolink/wiki/image/json_to_message.png)  
+
+
 ## Feature not yet implemented
 One of the design purposes of TurboLink is to be able to use the gRPC directly in the blueprint, so some `proto3` features cannot be implemented in TurboLink yet.
 * Do not use [`optional`](https://protobuf.dev/programming-guides/proto3/#specifying-field-rules) field. And I have no plan to support functions like 'has_xxx' or 'clean_xxx' in the blueprint, which will greatly increase the complexity of the generated code.
