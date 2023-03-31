@@ -7,12 +7,10 @@ UTurboLinkGrpcManager::UTurboLinkGrpcManager()
 	: d (new UTurboLinkGrpcManager::Private())
 	, NextTag(0)
 {
-	UE_LOG(LogTurboLink, Log, TEXT("Construct TurboLinkGrpcManager[%p]"), this);
 }
 
 UTurboLinkGrpcManager::~UTurboLinkGrpcManager()
 {
-	UE_LOG(LogTurboLink, Log, TEXT("Destruct TurboLinkGrpcManager[%p]"), this);
 	delete d;
 }
 
@@ -20,7 +18,7 @@ void UTurboLinkGrpcManager::Initialize(FSubsystemCollectionBase& Collection)
 {
 	bIsShutdowning = false;
 	if (bIsInitialized) return;
-	UE_LOG(LogTurboLink, Log, TEXT("Initialize TurboLinkGrpcManager[%p]"), this);
+	UE_LOG(LogTurboLink, Log, TEXT("Initialize TurboLinkGrpcManager"));
 
 	//Registe All Service Classes
 	TArray<UClass*> seriviceClasses;
@@ -40,7 +38,7 @@ void UTurboLinkGrpcManager::Deinitialize()
 {
 	if (bIsShutdowning) return;
 	bIsShutdowning = true;
-	UE_LOG(LogTurboLink, Log, TEXT("Deinitialize TurboLinkGrpcManager[%p]"), this);
+	UE_LOG(LogTurboLink, Log, TEXT("Deinitialize TurboLinkGrpcManager"));
 
 	//Shutdown all service
 	for (auto& element : WorkingService)

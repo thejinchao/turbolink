@@ -5,12 +5,10 @@
 
 UGrpcService::UGrpcService()
 {
-	UE_LOG(LogTurboLink, Log, TEXT("Construct GrpcService[%p]"), this);
 }
 
 UGrpcService::~UGrpcService()
 {
-	UE_LOG(LogTurboLink, Log, TEXT("Destruct GrpcService[%p]"), this);
 }
 
 void UGrpcService::Tick(float DeltaTime)

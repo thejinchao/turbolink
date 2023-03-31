@@ -38,12 +38,10 @@ void GrpcLogEntry(gpr_log_func_args* args)
 
 FTurboLinkGrpcModule::FTurboLinkGrpcModule()
 {
-	UE_LOG(LogTurboLink, Log, TEXT("Construct TurboLinkGrpcModule[%p]"), this);
 }
 
 FTurboLinkGrpcModule::~FTurboLinkGrpcModule()
 {
-	UE_LOG(LogTurboLink, Log, TEXT("Destruct TurboLinkGrpcModule[%p]"), this);
 }
 
 void FTurboLinkGrpcModule::StartupModule()
