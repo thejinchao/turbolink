@@ -21,7 +21,11 @@ void SGrpcMessageTagWidget::Construct(const FArguments& InArgs)
 	ChildSlot
 	[
 		SNew(SBorder)
+#if ENGINE_MAJOR_VERSION>=5
+		.BorderImage(FAppStyle::GetBrush("ToolPanel.GroupBorder"))
+#else
 		.BorderImage(FEditorStyle::GetBrush("ToolPanel.GroupBorder"))
+#endif
 		[
 			SNew(SVerticalBox)
 
@@ -178,7 +182,11 @@ TSharedRef<ITableRow> SGrpcMessageTagWidget::OnGenerateRow(TSharedPtr<FGrpcMessa
 	}
 
 	return SNew(STableRow< TSharedPtr<FGrpcMessageTag> >, OwnerTable)
+#if ENGINE_MAJOR_VERSION>=5
+		.Style(FAppStyle::Get(), "GameplayTagTreeView")
+#else
 		.Style(FEditorStyle::Get(), "GameplayTagTreeView")
+#endif
 		[
 			SNew(SHorizontalBox)
 
