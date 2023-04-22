@@ -1,3 +1,4 @@
+// Copyright (C) Developed by Neo Jin. All Rights Reserved.
 #include "SGrpcMessageTagWidget.h"
 #include "Widgets/Input/SButton.h"
 #include "Widgets/Input/SCheckBox.h"

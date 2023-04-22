@@ -1,3 +1,4 @@
+// Copyright (C) Developed by Neo Jin. All Rights Reserved.
 #include "GrpcMessageTagsManager.h"
 #include "Misc/OutputDeviceNull.h"
 #include "TurboLinkGrpcModule.h"

@@ -1,5 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
+// Copyright (C) Developed by Neo Jin. All Rights Reserved.
 #pragma once
 
 #include "CoreMinimal.h"

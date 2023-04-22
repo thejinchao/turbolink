@@ -32,7 +32,7 @@
 			"Name": "TurboLinkEditor",
 			"Type": "UncookedOnly",
 			"LoadingPhase": "Default",
-			"PlatformAllowList": [
+			"WhitelistPlatforms": [
 				"Win64",
 				"Mac"
 			]

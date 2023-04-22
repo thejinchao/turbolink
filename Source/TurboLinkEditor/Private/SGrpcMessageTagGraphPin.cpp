@@ -1,3 +1,4 @@
+// Copyright (C) Developed by Neo Jin. All Rights Reserved.
 #include "SGrpcMessageTagGraphPin.h"
 #include "SGrpcMessageTagWidget.h"
 
