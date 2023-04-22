@@ -22,9 +22,9 @@ pushd %~dp0\..
 set TL_UE_PLUGIN_PATH=%cd%
 popd
 
-set PROTOC_EXE_PATH=%TL_UE_PLUGIN_PATH%\ThirdParty\protobuf\bin\protoc.exe
-set PROTOBUF_INC_PATH=%TL_UE_PLUGIN_PATH%\ThirdParty\protobuf\include
-set GRPC_CPP_PLUGIN_EXE_PATH=%TL_UE_PLUGIN_PATH%\ThirdParty\grpc\bin\grpc_cpp_plugin.exe
+set PROTOC_EXE_PATH=%TL_UE_PLUGIN_PATH%\Source\ThirdParty\protobuf\bin\protoc.exe
+set PROTOBUF_INC_PATH=%TL_UE_PLUGIN_PATH%\Source\ThirdParty\protobuf\include
+set GRPC_CPP_PLUGIN_EXE_PATH=%TL_UE_PLUGIN_PATH%\Source\ThirdParty\grpc\bin\grpc_cpp_plugin.exe
 set TURBOLINK_PLUGIN_PATH=%TL_UE_PLUGIN_PATH%\Tools\protoc-gen-turbolink.exe
 set FIX_PROTO_CPP=%TL_UE_PLUGIN_PATH%\Tools\fix_proto_cpp.txt
 set FIX_PROTO_H=%TL_UE_PLUGIN_PATH%\Tools\fix_proto_h.txt
