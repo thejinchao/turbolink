@@ -11,6 +11,8 @@ TurboLink is an unreal engine plugin that enables [Google gRPC](https://grpc.io/
 * Support streaming gRPC methods.
 * Support TLS connection.
 * A [protoc-plugin code generation tool](https://github.com/thejinchao/protoc-gen-turbolink) for generating protobuf code wrappers that can be used directly in blueprint.
+* Construct protobuf message through native make nodes in blueprints.
+* Support complex protobuf structures such as `oneof` field and self-nesting struct.
 * All public header files in the plugin do not include gRPC and protobuf library header files so that your project avoids including too many header files.
 
 ## Example
@@ -30,7 +32,7 @@ If you do not have a golang runtime environment, you can connect the client to t
 ### 1. Installing the plugin
 1. Clone this git repository.
 2. Create a `Plugins/TurboLink` folder under your project folder, then copy this repo into it.
-3. Download pre-built thirdparty binaries libraries from [here](https://github.com/thejinchao/turbolink-libraries/releases), and extract it to `Plugin/TurboLink/ThirdParty`.
+3. Download pre-built thirdparty binaries libraries from [here](https://github.com/thejinchao/turbolink-libraries/releases), and extract it to `Plugin/TurboLink/Source/ThirdParty`.
 
 ### 2. Config service endpoint
 Open the project setting window (TurboLink Grpc/Services Config) to set the server endpoint to different gRPC services.  

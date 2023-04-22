@@ -11,6 +11,8 @@ TurboLink 是一个Unreal Engine插件, 能够在[Unreal Engine](https://www.unr
 * 支持流式gRPC函数
 * 支持TLS加密链接
 * 以protoc插件方式[代码生成工具](https://github.com/thejinchao/protoc-gen-turbolink) ，生成可以在蓝图中直接使用的代码
+* 在蓝图中直接构造protobuf消息
+* 支持复杂的protobuf消息结构，例如`oneof`字段以及自我引用的消息
 * 所有头文件都没有引用gRPC和其他类库头文件，避免工程文件引用过多的头文件
 
 ## 范例
@@ -29,7 +31,7 @@ TurboLink 是一个Unreal Engine插件, 能够在[Unreal Engine](https://www.unr
 ### 1. 安装插件
 1. 下载本git工程代码
 2. 在你的UE工程中创建`Plugin/TurboLink`这个目录，然后把这个插件代码拷贝到里面
-3. 下载插件所需要的第三方代码库，可以从[这里](https://github.com/thejinchao/turbolink-libraries/releases) 下载一份已经编译好的库文件，然后解压到`Plugin/TurboLink/ThirdParty`目录里
+3. 下载插件所需要的第三方代码库，可以从[这里](https://github.com/thejinchao/turbolink-libraries/releases) 下载一份已经编译好的库文件，然后解压到`Plugin/TurboLink/Source/ThirdParty`目录里
 
 ### 2. 配置服务器地址
 打开编辑器的工程设置界面(TurboLink Grpc/Services Config)，在这里可以设置不同的gRPC服务器地址  

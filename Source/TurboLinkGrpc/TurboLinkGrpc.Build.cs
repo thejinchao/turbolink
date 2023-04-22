@@ -70,7 +70,7 @@ public class TurboLinkGrpc : ModuleRules
 
 	protected string ThirdPartyRoot()
 	{
-		return Path.GetFullPath(Path.Combine(ModuleDirectory, "../../ThirdParty/"));
+		return Path.GetFullPath(Path.Combine(ModuleDirectory, "../ThirdParty/"));
 	}
 	
 	private List<string> GrpcLibs = new List<string> 
