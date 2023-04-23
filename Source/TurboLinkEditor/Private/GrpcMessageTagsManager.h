@@ -23,7 +23,7 @@ struct FGrpcMessageTag
 	FName SimpleTagName;
 
 	// Full tag name
-	UPROPERTY(VisibleAnywhere, SaveGame)
+	UPROPERTY(VisibleAnywhere, SaveGame, Category = TurboLink)
 	FName TagName;
 
 	// Child gameplay tag nodes

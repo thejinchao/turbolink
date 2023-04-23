@@ -86,7 +86,7 @@ struct FBytes
 {
 	GENERATED_BODY()
 
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(BlueprintReadWrite, Category = TurboLink)
 	TArray<uint8> Value;
 
 	FBytes() {  }

@@ -61,10 +61,10 @@ public:
 	int KeepServiceAliveWithoutRefrenceSeconds = 60;
 
 public:
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = TurboLink)
 	FString GetServiceEndPoint(const FString& ServiceName) const;
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = TurboLink)
 	FString GetServerRootCerts() const;
 
 public:

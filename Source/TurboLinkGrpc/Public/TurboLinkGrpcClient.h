@@ -48,10 +48,10 @@ struct TURBOLINKGRPC_API FGrpcResult
 {
 	GENERATED_BODY()
 
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(BlueprintReadWrite, Category = TurboLink)
 	EGrpcResultCode Code;
 	
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(BlueprintReadWrite, Category = TurboLink)
 	FString Message;
 
 	FString GetCodeString() const;
@@ -82,16 +82,16 @@ class TURBOLINKGRPC_API UGrpcClient : public UObject
 	friend class UGrpcService;
 
 public:
-	UPROPERTY(BlueprintAssignable)
+	UPROPERTY(BlueprintAssignable, Category = TurboLink)
 	FOnContextStateChange OnContextStateChange;
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = TurboLink)
 	EGrpcContextState GetContextState(FGrpcContextHandle Handle) const;
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = TurboLink)
 	void TryCancelContext(FGrpcContextHandle Handle);
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = TurboLink)
 	virtual void Shutdown();
 
 protected:

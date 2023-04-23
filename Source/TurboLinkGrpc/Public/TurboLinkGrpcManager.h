@@ -32,10 +32,10 @@ public:
 	Private* const d=nullptr;
 
 public:
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = TurboLink)
 	UGrpcService* MakeService(const FString& ServiceName);
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category = TurboLink)
 	void ReleaseService(UGrpcService* Service);
 
 protected:

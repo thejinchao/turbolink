@@ -57,13 +57,13 @@ protected:
 	void Tick(float DeltaTime);
 
 public:
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category=TurboLink)
 	void RemoveClient(UGrpcClient* Client);
 
 	UPROPERTY()
 	UTurboLinkGrpcManager* TurboLinkManager;
 
-	UPROPERTY(BlueprintAssignable)
+	UPROPERTY(BlueprintAssignable, Category = TurboLink)
 	FOnServiceStateChanged OnServiceStateChanged;
 
 	UPROPERTY()
