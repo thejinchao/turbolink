@@ -3,6 +3,8 @@
 
 #include "CoreMinimal.h"
 #include "TurboLinkGrpcClient.h"
+#include "Subsystems/GameInstanceSubsystem.h"
+#include "Tickable.h"
 #include "TurboLinkGrpcManager.generated.h"
 
 class UGrpcService;

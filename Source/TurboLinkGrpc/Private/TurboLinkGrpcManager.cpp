@@ -3,6 +3,7 @@
 #include "TurboLinkGrpcManager_Private.h"
 #include "TurboLinkGrpcContext.h"
 #include "TurboLinkGrpcModule.h"
+#include "UObject/UObjectHash.h"
 
 UTurboLinkGrpcManager::UTurboLinkGrpcManager()
 	: d (new UTurboLinkGrpcManager::Private())
