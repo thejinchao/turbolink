@@ -8,12 +8,11 @@
 	"CreatedBy": "neo jin",
 	"CreatedByURL": "https://github.com/thejinchao/turbolink",
 	"DocsURL": "",
-	"MarketplaceURL": "",
+	"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/content/96373317fbcb48debd914abaee4417b2",
 	"SupportURL": "",
 	"EngineVersion": "4.27.0",
 	"CanContainContent": false,
-	"IsBetaVersion": false,
-	"Installed": false,
+	"Installed": true,
 	"Modules": [
 		{
 			"Name": "TurboLinkGrpc",
