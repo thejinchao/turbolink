@@ -41,8 +41,8 @@ if not exist %CPP_OUTPUT_PATH% mkdir %CPP_OUTPUT_PATH%
  %INPUT_PROTO_FILE%
 
 :: fix protobuf compile warning 
-call :FixCompileWarning %FIX_PROTO_H% %CPP_OUTPUT_PATH%\%INPUT_PROTO_FILE% "pb.h"
-call :FixCompileWarning %FIX_PROTO_CPP% %CPP_OUTPUT_PATH%\%INPUT_PROTO_FILE% "pb.cc"
+call :FixCompileWarning "%FIX_PROTO_H%" %CPP_OUTPUT_PATH%\%INPUT_PROTO_FILE% "pb.h"
+call :FixCompileWarning "%FIX_PROTO_CPP%" %CPP_OUTPUT_PATH%\%INPUT_PROTO_FILE% "pb.cc"
 goto :eof
 
 :FixCompileWarning
