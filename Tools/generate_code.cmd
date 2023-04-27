@@ -7,6 +7,7 @@ set INPUT_PROTO_PATH=%cd%
 set INPUT_PROTO_FILE=%1
 if not exist %INPUT_PROTO_FILE% (
 	echo Input proto file '%INPUT_PROTO_FILE%' not exist!
+	pause
 	exit /b 1
 )
 
@@ -14,6 +15,7 @@ if not exist %INPUT_PROTO_FILE% (
 set OUTPUT_PATH=%2
 if not exist %OUTPUT_PATH% (
 	echo Output path '%OUTPUT_PATH%' not exist!
+	pause
 	exit /b 1
 )
 
@@ -23,9 +25,27 @@ set TL_UE_PLUGIN_PATH=%cd%
 popd
 
 set PROTOC_EXE_PATH=%TL_UE_PLUGIN_PATH%\Tools\protoc.exe
-set PROTOBUF_INC_PATH=%TL_UE_PLUGIN_PATH%\Source\ThirdParty\protobuf\include
+if not exist %PROTOC_EXE_PATH% (
+	echo Can't find "protoc.exe" in Tools directory, please download this file from https://github.com/thejinchao/turbolink/blob/main/Tools/protoc.exe
+	pause
+	exit /b 1
+)
+
 set GRPC_CPP_PLUGIN_EXE_PATH=%TL_UE_PLUGIN_PATH%\Tools\grpc_cpp_plugin.exe
+if not exist %GRPC_CPP_PLUGIN_EXE_PATH% (
+	echo Can't find "grpc_cpp_plugin.exe" in Tools directory, please download this file from https://github.com/thejinchao/turbolink/blob/main/Tools/grpc_cpp_plugin.exe
+	pause
+	exit /b 1
+)
+
 set TURBOLINK_PLUGIN_PATH=%TL_UE_PLUGIN_PATH%\Tools\protoc-gen-turbolink.exe
+if not exist %TURBOLINK_PLUGIN_PATH% (
+	echo Can't find "protoc-gen-turbolink.exe" in Tools directory, please download this file from https://github.com/thejinchao/turbolink/blob/main/Tools/protoc-gen-turbolink.exe
+	pause
+	exit /b 1
+)
+
+set PROTOBUF_INC_PATH=%TL_UE_PLUGIN_PATH%\Source\ThirdParty\protobuf\include
 set FIX_PROTO_CPP=%TL_UE_PLUGIN_PATH%\Tools\fix_proto_cpp.txt
 set FIX_PROTO_H=%TL_UE_PLUGIN_PATH%\Tools\fix_proto_h.txt
 set CPP_OUTPUT_PATH=%OUTPUT_PATH%\Private\pb
