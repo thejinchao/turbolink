@@ -71,7 +71,7 @@ generate_code.cmd <proto_file> <output_path>
 2. 把生成的代码目录`output_path`中的`Private`和`Public`目录拷贝到插件目录`YourProject/Plugins/TurboLink/Source/TurboLinkGrpc`中
 3. 重新生成工程文件并编译
 
-这个批处理使用的是protoc的插件`protoc-gen-turbolink`来生成代码，这个插件的源码在[这里](https://github.com/thejinchao/protoc-gen-turbolink).  
+这个批处理使用的是protoc的插件`protoc-gen-turbolink`来生成代码，这个插件的源码在[这里](https://github.com/thejinchao/protoc-gen-turbolink). 不要把工程放在包含有空格的路径之内，以免批处理执行出现错误。  
 如果你的工程中包含了多个proto文件，并且文件之间有依赖关系，那么你应该有一个根目录保存这些文件，然后以这个目录作为当前的工作路径来运行`generate_code.cmd`
 
 ### 2. 链接gRPC服务器

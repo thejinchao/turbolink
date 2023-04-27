@@ -72,7 +72,7 @@ In the proto file above, Use the following steps to generate code files:
 2. Copy generated directories `Private` and `Public` from `output_path` to `YourProject/Plugins/TurboLink/Source/TurboLinkGrpc`
 3. Re-generate your project solution and build it.
 
-This batch file generates code through a protoc plugin named `protoc-gen-turbolink`, the code of this plugin can be found [here](https://github.com/thejinchao/protoc-gen-turbolink).  
+This batch file generates code through a protoc plugin named `protoc-gen-turbolink`, the code of this plugin can be found [here](https://github.com/thejinchao/protoc-gen-turbolink). Do not put the project in the path containing spaces to avoid errors in execution.
 If your project contains multiple proto files, and there are dependencies between files, then you should have a root directory to save these files, and then use this directory as the current working path to run `generate_code.cmd`
 
 ### 2. Connect to gRPC service
