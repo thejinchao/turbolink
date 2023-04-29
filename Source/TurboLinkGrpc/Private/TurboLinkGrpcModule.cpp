@@ -9,9 +9,17 @@
 #include "Logging/LogMacros.h"
 #include "Logging/LogVerbosity.h"
 
+#if PLATFORM_WINDOWS
+#include "Windows/PreWindowsApi.h"
+#endif
+
 #include "grpc/grpc.h"
 #include "grpc/support/log.h"
 #include "google/protobuf/descriptor_database.h"
+
+#if PLATFORM_WINDOWS
+#include "Windows/PostWindowsApi.h"
+#endif
 
 #define LOCTEXT_NAMESPACE "FTurboLinkGrpcModule"
 
