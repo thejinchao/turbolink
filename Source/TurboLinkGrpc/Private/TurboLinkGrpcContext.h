@@ -4,7 +4,7 @@
 #include "CoreMinimal.h"
 #include "TurboLinkGrpcClient.h"
 #include "TurboLinkGrpcModule.h"
-
+#include "grpcpp/impl/codegen/async_unary_call.h"
 #include <grpcpp/grpcpp.h>
 
 class UGrpcService;
