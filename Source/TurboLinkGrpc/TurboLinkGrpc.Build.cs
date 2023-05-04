@@ -30,7 +30,8 @@ public class TurboLinkGrpc : ModuleRules
 				"Slate",
 				"SlateCore",
 				"Serialization",
-				"Networking"
+				"Networking",
+				"DeveloperSettings"
 			}
 		);
 		AddEngineThirdPartyPrivateStaticDependencies(Target, "OpenSSL");

@@ -17,7 +17,7 @@ public:
 	static class UTurboLinkGrpcManager* GetTurboLinkGrpcManager(UObject* WorldContextObject);
 
 	UFUNCTION(BlueprintPure, Category = "TurboLink")
-	static class UTurboLinkGrpcConfig* GetTurboLinkGrpcConfig();
+	static const class UTurboLinkGrpcConfig* GetTurboLinkGrpcConfig();
 
 	//wrap class for uint64
 	UFUNCTION(BlueprintPure, Category = "TurboLink", DisplayName = "Make UInt64", meta = (AdvancedDisplay = "1"))

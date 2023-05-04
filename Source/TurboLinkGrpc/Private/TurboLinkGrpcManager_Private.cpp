@@ -38,7 +38,7 @@ std::shared_ptr<UTurboLinkGrpcManager::Private::ServiceChannel> UTurboLinkGrpcMa
 
 	//get config instance
 	FTurboLinkGrpcModule* turboLinkModule = FModuleManager::GetModulePtr<FTurboLinkGrpcModule>("TurboLinkGrpc");
-	UTurboLinkGrpcConfig* config = turboLinkModule->GetTurboLinkGrpcConfig();
+	const UTurboLinkGrpcConfig* config = turboLinkModule->GetTurboLinkGrpcConfig();
 
 	//apply channel arguments
 	grpc::ChannelArguments args;

@@ -16,7 +16,7 @@ public:
 	virtual void StartupModule() override;
 	virtual void ShutdownModule() override;
 
-	UTurboLinkGrpcConfig* GetTurboLinkGrpcConfig();
+	const UTurboLinkGrpcConfig* GetTurboLinkGrpcConfig() const;
 	
 #if WITH_EDITOR
 public:
@@ -28,11 +28,7 @@ private:
 #endif
 
 private:
-#if WITH_EDITOR
-	TSharedPtr<FTurboLinkGrpcConfig> ConfigInstance;
-#else
-	UTurboLinkGrpcConfig* ConfigInstance;
-#endif
+	mutable const class UTurboLinkGrpcConfig* CachedSettings;
 
 public:
 	FTurboLinkGrpcModule();

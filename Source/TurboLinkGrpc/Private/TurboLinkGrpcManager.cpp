@@ -107,7 +107,7 @@ void UTurboLinkGrpcManager::Tick(float DeltaTime)
 
 	//get config instance
 	FTurboLinkGrpcModule* turboLinkModule = FModuleManager::GetModulePtr<FTurboLinkGrpcModule>("TurboLinkGrpc");
-	UTurboLinkGrpcConfig* config = turboLinkModule->GetTurboLinkGrpcConfig();
+	const UTurboLinkGrpcConfig* config = turboLinkModule->GetTurboLinkGrpcConfig();
 	int keepServiceAliveWithoutRefrenceSeconds = config->KeepServiceAliveWithoutRefrenceSeconds;
 
 	//Tick working service

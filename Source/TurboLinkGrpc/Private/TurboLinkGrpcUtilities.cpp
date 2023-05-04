@@ -26,7 +26,7 @@ UTurboLinkGrpcManager* UTurboLinkGrpcUtilities::GetTurboLinkGrpcManager(UObject*
 	return GameInstance->GetSubsystem<UTurboLinkGrpcManager>();
 }
 
-UTurboLinkGrpcConfig* UTurboLinkGrpcUtilities::GetTurboLinkGrpcConfig()
+const UTurboLinkGrpcConfig* UTurboLinkGrpcUtilities::GetTurboLinkGrpcConfig()
 {
     FTurboLinkGrpcModule* turboLinkModule = FModuleManager::GetModulePtr<FTurboLinkGrpcModule>("TurboLinkGrpc");
     if (turboLinkModule == nullptr)

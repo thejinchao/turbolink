@@ -46,6 +46,7 @@ void GrpcLogEntry(gpr_log_func_args* args)
 }
 
 FTurboLinkGrpcModule::FTurboLinkGrpcModule()
+	: CachedSettings(nullptr)
 {
 }
 
@@ -60,16 +61,8 @@ void FTurboLinkGrpcModule::StartupModule()
 	gpr_set_log_verbosity(GPR_LOG_SEVERITY_DEBUG);
 	gpr_set_log_function(GrpcLogEntry);
 
-#if WITH_EDITOR
-	//Register TurboLink Grpc config page
-	ConfigInstance = MakeShared<FTurboLinkGrpcConfig>();
-	ConfigInstance->RegisterSettings();
-#else
-	ConfigInstance = NewObject<UTurboLinkGrpcConfig>();
-	ConfigInstance->AddToRoot();
-
-	ConfigInstance->LoadConfig();
-#endif
+	//Access config via 'class default object'
+	GetTurboLinkGrpcConfig();
 
 #if WITH_EDITOR
 	//register grpc message script struct
@@ -119,21 +112,15 @@ void FTurboLinkGrpcModule::RegisterAllGrpcMessageScriptStruct()
 void FTurboLinkGrpcModule::ShutdownModule()
 {
 	UE_LOG(LogTurboLink, Log, TEXT("Shutdown TurboLinkGrpcModule"));
-
-#if WITH_EDITOR
-	ConfigInstance->UnregisterSettings();
-#else
-	ConfigInstance->RemoveFromRoot();
-#endif
 }
 
-UTurboLinkGrpcConfig* FTurboLinkGrpcModule::GetTurboLinkGrpcConfig()
+const UTurboLinkGrpcConfig* FTurboLinkGrpcModule::GetTurboLinkGrpcConfig() const
 {
-#if WITH_EDITOR
-	return ConfigInstance->GetConfig();
-#else
-	return ConfigInstance;
-#endif
+	if (!CachedSettings)
+	{
+		CachedSettings = GetDefault<UTurboLinkGrpcConfig>();
+	}
+	return CachedSettings;
 }
 
 #undef LOCTEXT_NAMESPACE
