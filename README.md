@@ -30,9 +30,9 @@ If you do not have a golang runtime environment, you can connect the client to t
 ## Geting started  
 
 ### 1. Installing the plugin
-1. Clone this git repository.
-2. Create a `Plugins/TurboLink` folder under your project folder, then copy this repo into it.
-3. Download pre-built thirdparty binaries libraries from [here](https://github.com/thejinchao/turbolink-libraries/releases), and extract it to `Plugin/TurboLink/Source/ThirdParty`.
+1. Download a release version from [here](https://github.com/thejinchao/turbolink/releases).
+2. You can also clone this repo locally through git, but you also need to download pre-built third party binaries libraries from [here](https://github.com/thejinchao/turbolink-libraries/releases), and extract it to `Source/ThirdParty`.
+3. Create a `Plugins/TurboLink` folder under your project folder, then copy this repo into it.
 
 ### 2. Config service endpoint
 Open the project setting window (TurboLink Grpc/Services Config) to set the server endpoint to different gRPC services.  
@@ -72,7 +72,7 @@ In the proto file above, Use the following steps to generate code files:
 2. Copy generated directories `Private` and `Public` from `output_path` to `YourProject/Plugins/TurboLink/Source/TurboLinkGrpc`
 3. Re-generate your project solution and build it.
 
-This batch file generates code through a protoc plugin named `protoc-gen-turbolink`, the code of this plugin can be found [here](https://github.com/thejinchao/protoc-gen-turbolink). Do not put the project in the path containing spaces to avoid errors in execution.
+This batch file generates code through a protoc plugin named `protoc-gen-turbolink`, the code of this plugin can be found [here](https://github.com/thejinchao/protoc-gen-turbolink). Do not put the project in the path containing spaces to avoid errors in execution.  
 If your project contains multiple proto files, and there are dependencies between files, then you should have a root directory to save these files, and then use this directory as the current working path to run `generate_code.cmd`
 
 ### 2. Connect to gRPC service

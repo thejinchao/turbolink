@@ -29,9 +29,9 @@ TurboLink 是一个Unreal Engine插件, 能够在[Unreal Engine](https://www.unr
 ## 入门
 
 ### 1. 安装插件
-1. 下载本git工程代码
-2. 在你的UE工程中创建`Plugin/TurboLink`这个目录，然后把这个插件代码拷贝到里面
-3. 下载插件所需要的第三方代码库，可以从[这里](https://github.com/thejinchao/turbolink-libraries/releases) 下载一份已经编译好的库文件，然后解压到`Plugin/TurboLink/Source/ThirdParty`目录里
+1. 从[这里](https://github.com/thejinchao/turbolink/releases) 下载一份插件的release版本
+2. 你也可以用git从这个仓库克隆一份代码到本地，但需要从[这里](https://github.com/thejinchao/turbolink-libraries/releases) 下载一份已经编译好的第三方代码库，然后解压到`Source/ThirdParty`目录里
+3. 在UE工程中创建`Plugin/TurboLink`这个目录，然后把这个插件代码拷贝到里面
 
 ### 2. 配置服务器地址
 打开编辑器的工程设置界面(TurboLink Grpc/Services Config)，在这里可以设置不同的gRPC服务器地址  
