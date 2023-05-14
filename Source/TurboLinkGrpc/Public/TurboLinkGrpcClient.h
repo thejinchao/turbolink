@@ -73,6 +73,11 @@ struct FGrpcContextHandle
 	FGrpcContextHandle(const uint32& _Value) { this->Value = _Value; }
 };
 
+FORCEINLINE uint32 GetTypeHash(const FGrpcContextHandle& GrpcContextHandle)
+{
+	return GrpcContextHandle.Value;
+}
+
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnContextStateChange, FGrpcContextHandle, Handle, EGrpcContextState, NewState);
 
 UCLASS(ClassGroup = TurboLink, BlueprintType, Abstract)
