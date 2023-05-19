@@ -99,7 +99,11 @@ void FTurboLinkGrpcModule::RegisterAllGrpcMessageScriptStruct()
 		}
 
 		//add message script struct to map
+#if (ENGINE_MAJOR_VERSION==5 && ENGINE_MINOR_VERSION>=1) || ENGINE_MAJOR_VERSION>5
+		UScriptStruct* scriptStruct = FindFirstObject<UScriptStruct>(*grpcMessageName);
+#else
 		UScriptStruct* scriptStruct = FindObject<UScriptStruct>(ANY_PACKAGE, *grpcMessageName, true);
+#endif
 		if (scriptStruct)
 		{
 			FName grpcMessageTagName = FName(*(scriptStruct->GetDisplayNameText().ToString()));
