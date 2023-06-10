@@ -15,8 +15,10 @@ FString StructName::ToJsonString(bool bPrettyMode) const \
 	std::string json_string; \
 	::google::protobuf::util::JsonOptions options; \
 	options.add_whitespace=bPrettyMode; \
-	::google::protobuf::util::MessageToJsonString(message,  &json_string, options); \
-	return FString(UTF8_TO_TCHAR(json_string.c_str())); \
+	if(::google::protobuf::util::MessageToJsonString(message,  &json_string, options).ok()) { \
+		return FString(UTF8_TO_TCHAR(json_string.c_str())); \
+	} \
+	return FString(TEXT("")); \
 } \
 bool StructName::FromJsonString(const FString& JsonString) \
 { \
