@@ -1,11 +1,11 @@
 {
 	"FileVersion": 3,
 	"Version": 1,
-	"VersionName": "1.0",
+	"VersionName": "1.2",
 	"FriendlyName": "TurboLink",
 	"Description": "Enables Google gRPC work with Unreal Engine using C++ and Blueprint",
 	"Category": "Other",
-	"CreatedBy": "neo jin",
+	"CreatedBy": "Neo Jin",
 	"CreatedByURL": "https://github.com/thejinchao/turbolink",
 	"DocsURL": "https://github.com/thejinchao/turbolink/blob/main/README.md",
 	"MarketplaceURL": "",
