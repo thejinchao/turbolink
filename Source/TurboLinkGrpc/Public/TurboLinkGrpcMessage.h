@@ -13,7 +13,7 @@ FString StructName::ToJsonString(bool bPrettyMode) const \
 	GrpcStructName message; \
 	TURBOLINK_TO_GRPC(this, &message); \
 	std::string json_string; \
-	::google::protobuf::util::JsonOptions options; \
+	::google::protobuf::util::JsonPrintOptions options; \
 	options.add_whitespace=bPrettyMode; \
 	if(::google::protobuf::util::MessageToJsonString(message,  &json_string, options).ok()) { \
 		return FString(UTF8_TO_TCHAR(json_string.c_str())); \
