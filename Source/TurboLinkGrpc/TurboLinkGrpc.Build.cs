@@ -206,7 +206,13 @@ public class TurboLinkPlatform_Win64 : TurboLinkPlatform
 public class TurboLinkPlatform_Android : TurboLinkPlatform
 {
 	public override string LibrariesPath { get { return "android/"; } }
-	public override List<string> Architectures() { return new List<string> { "armeabi-v7a/", "arm64-v8a/", "x86_64/" }; }
+	public override List<string> Architectures() { return new List<string> {
+#if UE_5_0_OR_LATER
+		"arm64-v8a/", "x86_64/" 
+#else
+		"armeabi-v7a/", "arm64-v8a/", "x86_64/" 
+#endif
+	}; }
 	public override string LibraryPrefixName { get { return "lib"; } }
 	public override string LibraryPostfixName { get { return ".a"; } }
 }
