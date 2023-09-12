@@ -11,7 +11,6 @@ public class TurboLinkGrpc : ModuleRules
 
 	public TurboLinkGrpc(ReadOnlyTargetRules Target) : base(Target)
 	{
-		DefaultBuildSettings = BuildSettingsVersion.Latest;
 		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
 		TurboLinkPlatformInstance = GetTurboLinkPlatformInstance(Target);
 
