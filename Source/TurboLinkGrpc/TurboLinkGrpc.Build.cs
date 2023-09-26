@@ -197,6 +197,17 @@ public abstract class TurboLinkPlatform
 
 public class TurboLinkPlatform_Win64 : TurboLinkPlatform
 {
+	public override string ConfigurationDir(UnrealTargetConfiguration Configuration)
+	{
+		if (Configuration == UnrealTargetConfiguration.Debug || Configuration == UnrealTargetConfiguration.DebugGame)
+		{
+			return "RelWithDebInfo/";
+		}
+		else
+		{
+			return "Release/";
+		}
+	}
 	public override string LibrariesPath { get { return "win64/"; } }
 	public override List<string> Architectures() { return new List<string> { "" }; }
 	public override string LibraryPrefixName { get { return ""; } }
