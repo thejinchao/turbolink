@@ -17,7 +17,7 @@ TurboLink 是一个Unreal Engine插件, 能够在[Unreal Engine](https://www.unr
 
 ## 范例
 ![example](https://github.com/thejinchao/turbolink/wiki/image/turbolink_example.png)  
-有两个范例工程提供，[simple.demo.zip](https://drive.google.com/file/d/1z9r9s81l1OJnhMu4FWoXzQ_02nbfmBui/view?usp=share_link) 和 [full.demo.zip](https://drive.google.com/file/d/1W8dx-BAlzZnDy-_2tA1GXJAcjlIyYcak/view?usp=sharing) ，建议您首先编译运行范例工程，以了解这个插件是如何运行的。范例工程都包含了可以直接编译运行的UE工程，以及用go语言编写的服务器工程。
+有两个范例工程提供，[simple.demo.zip](https://drive.google.com/file/d/1AIRoLgjQ_aQK6Hd2idXPuC3MjcXAShAL/view?usp=sharing) 和 [full.demo.zip](https://drive.google.com/file/d/1rXfleQwWvIawd_PrzPhtRP2aLQpdgUjT/view?usp=sharing) ，建议您首先编译运行范例工程，以了解这个插件是如何运行的。范例工程都包含了可以直接编译运行的UE工程，以及用go语言编写的服务器工程。
 ### 运行本地服务器
 1. 安装golang运行环境1.19
 2. 确保当前目录为`TurboLink.example/Server`，然后运行命令`go mod tidy`以更新所有模块
