@@ -2,6 +2,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Engine/DeveloperSettings.h"
 #include "TurboLinkGrpcConfig.generated.h"
 
 UCLASS(config = Game, DefaultConfig) // DefaultConfig means 'Save object config only to Default INIs, never to local INIs.'
