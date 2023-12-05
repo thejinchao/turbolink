@@ -64,7 +64,16 @@ service GreeterService {
 	rpc Hello (HelloRequest) returns (HelloResponse);
 }
 ```
-To use this service, in addition to using `protoc` to generate `*.pb.cc` and `*.grpc.pb.cc` files, you also need to generate the code files required by turbolink. In the `tools` directory of the plugin, there is a batch file called `generate_code.cmd` that is used to generate all the gRPC code files. Before using it, make sure you have installed the plugin into your project and all third-party library files are installed. The command line is:
+To use this service, in addition to using `protoc` to generate `*.pb.cc` and `*.grpc.pb.cc` files, you also need to generate the code files required by turbolink.
+
+There are 2 options to do so:
+### A. Using Github actions
+Follow [this](https://github.com/rootux/turbolink/actions/workflows/compile_proto.yml) -
+Click on Run Workflow -> Run Workflow. This will build it. 
+You can clone/fork and replace the `Resources/hello.proto` with your own proto  
+
+### B. Running yourself
+In the `tools` directory of the plugin, there is a batch file called `generate_code.cmd` that is used to generate all the gRPC code files. Before using it, make sure you have installed the plugin into your project and all third-party library files are installed. The command line is:
 ```
 generate_code.cmd <proto_file> <output_path>
 ```
