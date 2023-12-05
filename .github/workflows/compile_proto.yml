@@ -22,7 +22,7 @@ jobs:
         # very important, since we use cmd scripts, the default is powershell - pwsh,
         # and a bug prevents errors to bubble and show up in the logs
         shell: cmd
-        run: ./generate_code.cmd ..\Resources\hello.proto Output
+        run: ./generate_code.cmd hello.proto Output
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
