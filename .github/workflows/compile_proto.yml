@@ -1,0 +1,31 @@
+name: Generate code from proto
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Download and unzip third-party tools
+        run: |
+          curl -LO https://github.com/thejinchao/turbolink-libraries/releases/download/v1.3/turbolink-libraries.ue53.zip
+          tar -xvf turbolink-libraries.ue53.zip -C Source\ThirdParty
+          mkdir -p Tools\Output
+
+      - name: Run generate_code.cmd
+        working-directory: Tools\
+        # very important, since we use cmd scripts, the default is powershell - pwsh,
+        # and a bug prevents errors to bubble and show up in the logs
+        shell: cmd
+        run: ./generate_code.cmd hello.proto Output
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: Generated C++ code
+          path: Tools\Output

@@ -1,4 +1,5 @@
 @echo off
+setlocal enabledelayedexpansion
 
 ::set current directory as proto file path
 set INPUT_PROTO_PATH=%cd%
@@ -32,6 +33,38 @@ set FIX_PROTO_CPP=%TL_UE_PLUGIN_PATH%\Tools\fix_proto_cpp.txt
 set FIX_PROTO_H=%TL_UE_PLUGIN_PATH%\Tools\fix_proto_h.txt
 set CPP_OUTPUT_PATH=%OUTPUT_PATH%\Private\pb
 if not exist %CPP_OUTPUT_PATH% mkdir %CPP_OUTPUT_PATH%
+
+:: Print Variables for debugging
+echo Input proto file: %INPUT_PROTO_FILE%
+echo Output path: %OUTPUT_PATH%
+
+echo TURBOLINK_PLUGIN_PATH=%TURBOLINK_PLUGIN_PATH%
+echo PROTOC_EXE_PATH=%PROTOC_EXE_PATH%
+echo PROTOBUF_INC_PATH=%PROTOBUF_INC_PATH%
+echo GRPC_CPP_PLUGIN_EXE_PATH=%GRPC_CPP_PLUGIN_EXE_PATH%
+echo FIX_PROTO_CPP=%FIX_PROTO_CPP%
+echo FIX_PROTO_H=%FIX_PROTO_H%
+echo CPP_OUTPUT_PATH=%CPP_OUTPUT_PATH%
+
+echo Checking existence of files or directories...
+
+set "variables=TURBOLINK_PLUGIN_PATH PROTOC_EXE_PATH PROTOBUF_INC_PATH GRPC_CPP_PLUGIN_EXE_PATH FIX_PROTO_CPP FIX_PROTO_H CPP_OUTPUT_PATH"
+
+set "errorFlag=0"
+for %%v in (%variables%) do (
+    set "currentVar=!%%v!"
+    IF NOT EXIST "!currentVar!" (
+        echo !currentVar! not found at !currentVar!
+        set "errorFlag=1"
+    ) ELSE (
+        echo !currentVar! exists at !currentVar!
+    )
+)
+
+if !errorFlag! equ 1 (
+    echo Error: At least one required file or directory not found.
+    exit /b 1
+)
 
 ::call protoc.exe
 "%PROTOC_EXE_PATH%" ^
