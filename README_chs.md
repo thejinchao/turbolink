@@ -62,7 +62,17 @@ service GreeterService {
 	rpc Hello (HelloRequest) returns (HelloResponse);
 }
 ```
-如果需要使用该gRPC服务，除了使用`protoc`生成`*.pb.cc` and `*.grpc.pb.cc`外，还需要生成TurboLink插件所需要的一些代码。在插件的`tools`目录，通过批处理`generate_code.cmd`可以直接生成所有这些文件。在使用这个批处理前，需要确保已经把插件拷贝到工程中，并且已经把编译后的三方库文件拷贝到插件中。运行批处理的命令格式如下:
+如果需要使用该gRPC服务，除了使用`protoc`生成`*.pb.cc` and `*.grpc.pb.cc`外，还需要生成TurboLink插件所需要的一些代码。
+
+生成这种文件可以采用两种不同的方法：
+### A. 使用Github actions
+运行 [此Action](https://github.com/thejinchao/turbolink/actions/workflows/compile_proto.yml) -
+点击 `Run Workflow` -> `Run Workflow`. 位于`.github/protos`目录下所有的proto文件就会被自动编译。  
+编译结束后，在Summary页面的底部的Artifacts一节中会有生成的C++代码的下载连接。  
+如果要编译你自己的proto文件，需要fork本工程，然后把协议文件上传到`.github/protos`目录中
+
+### B. 在本地运行编译工具
+在插件的`tools`目录，通过批处理`generate_code.cmd`可以直接生成所有这些文件。在使用这个批处理前，需要确保已经把插件拷贝到工程中，并且已经把编译后的三方库文件拷贝到插件中。运行批处理的命令格式如下:
 ```
 generate_code.cmd <proto_file> <output_path>
 ```

@@ -68,12 +68,12 @@ To use this service, in addition to using `protoc` to generate `*.pb.cc` and `*.
 
 There are 2 options to do so:
 ### A. Using Github actions
-Follow [this](https://github.com/rootux/turbolink/actions/workflows/compile_proto.yml) -
-Click on Run Workflow -> Run Workflow. This will build it.
-Then at the end of the build - at the bottom you will see under Artifacts "Generated C++ code"
-To use your own .proto - you can clone/fork and replace the `Resources/hello.proto`  
+Follow [this](https://github.com/thejinchao/turbolink/actions/workflows/compile_proto.yml) -
+Click on `Run Workflow` -> `Run Workflow`. This will build all proto files in the `.github/protos` directory.  
+Then at the end of the build - at the bottom of the summary page you will see the "Generated C++ Code" download link under Artifacts section.  
+To use your own .proto - you can clone/fork this repo and add your proto files in the `.github/protos` directory.  
 
-### B. Running yourself
+### B. Running the tool locally
 In the `tools` directory of the plugin, there is a batch file called `generate_code.cmd` that is used to generate all the gRPC code files. Before using it, make sure you have installed the plugin into your project and all third-party library files are installed. The command line is:
 ```
 generate_code.cmd <proto_file> <output_path>
