@@ -184,21 +184,14 @@ public:
 	}
 };
 
-/*TODO: Not complete yet...
-
-template<typename T, typename R>
-class GrpcContext_Stream_Pong : public TGrpcContext<T, R>
-{
-};
-*/
-
 template<typename T, typename R, typename S>
-class GrpcContext_Stream_Stream : public TGrpcContext<T, R>
+class GrpcContext_Stream_Pong : public TGrpcContext<T, R>
 {
 	typedef TGrpcContext<T, R> Super;
 protected:
 	std::vector<S> SendQueue;
-	bool CanSend = false;
+	bool bCanSend = false;
+	bool bWritesDone = false;
 
 protected:
 	void OnRpcEventInternal(bool Ok, const void* EventTag, typename Super::FRpcCallbackFunc RpcCallbackFunc)
@@ -218,7 +211,92 @@ protected:
 
 				if (SendQueue.empty())
 				{
-					CanSend = true;
+					bCanSend = true;
+				}
+				else
+				{
+					Super::RpcReaderWriter->Write(SendQueue.front(), Super::WriteTag);
+					SendQueue.erase(SendQueue.begin());
+				}
+
+				// Register a handler to be called when the server has sent a reply and final status.
+				Super::RpcReaderWriter->Finish(&(Super::RpcStatus), Super::ReadTag);
+				Super::UpdateState(EGrpcContextState::Busy);
+			}
+			else
+			{
+				if (EventTag == Super::ReadTag)
+				{
+					if (RpcCallbackFunc)
+					{
+						RpcCallbackFunc(result, &(Super::RpcResponse));
+					}
+					Super::UpdateState(EGrpcContextState::Done);
+				}
+				else if (EventTag == Super::WriteTag)
+				{
+					if (SendQueue.empty())
+					{
+						bCanSend = true;
+					}
+					else
+					{
+						if (!bWritesDone)
+						{
+							Super::RpcReaderWriter->Write(SendQueue.front(), Super::WriteTag);
+							SendQueue.erase(SendQueue.begin());
+						}
+					}
+				}
+			}
+		}
+		else
+		{
+			UE_LOG(LogTurboLink, Error, TEXT("CallRpcError: %s"), *result.GetMessageString());
+
+			if (RpcCallbackFunc)
+			{
+				RpcCallbackFunc(result, nullptr);
+			}
+			Super::UpdateState(EGrpcContextState::Done);
+			return;
+		}
+	}
+
+public:
+	GrpcContext_Stream_Pong(FGrpcContextHandle _Handle, UGrpcService* _Service, UGrpcClient* _Client)
+		: Super(_Handle, _Service, _Client)
+	{
+	}
+};
+
+template<typename T, typename R, typename S>
+class GrpcContext_Stream_Stream : public TGrpcContext<T, R>
+{
+	typedef TGrpcContext<T, R> Super;
+protected:
+	std::vector<S> SendQueue;
+	bool bCanSend = false;
+
+protected:
+	void OnRpcEventInternal(bool Ok, const void* EventTag, typename Super::FRpcCallbackFunc RpcCallbackFunc)
+	{
+		if (!Ok)
+		{
+			Super::RpcReaderWriter->Finish(&(Super::RpcStatus), Super::ReadTag);
+			return;
+		}
+
+		FGrpcResult result = GrpcContext::MakeGrpcResult(Super::RpcStatus);
+		if (Super::RpcStatus.ok())
+		{
+			if (Super::GetState() == EGrpcContextState::Initialing)
+			{
+				check(EventTag == Super::InitialTag);
+
+				if (SendQueue.empty())
+				{
+					bCanSend = true;
 				}
 				else
 				{
@@ -242,7 +320,7 @@ protected:
 				{
 					if (SendQueue.empty())
 					{
-						CanSend = true;
+						bCanSend = true;
 					}
 					else
 					{
