@@ -40,6 +40,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = TurboLink)
 	void ReleaseService(UGrpcService* Service);
 
+	UFUNCTION(BlueprintCallable, Category = TurboLink)
+	EGrpcServiceState GetServiceState(UGrpcService* Service);
+
 protected:
 	UPROPERTY()
 	TMap<FString, UGrpcService*> WorkingService;

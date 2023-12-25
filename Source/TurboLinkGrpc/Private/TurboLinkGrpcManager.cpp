@@ -200,6 +200,13 @@ void UTurboLinkGrpcManager::ReleaseService(UGrpcService* Service)
 	UE_LOG(LogTurboLink, Log, TEXT("ReleaseService service[%s], StartPendingShutdown..."), *(Service->GetName()));
 }
 
+EGrpcServiceState UTurboLinkGrpcManager::GetServiceState(UGrpcService* Service)
+{
+	check(Service != nullptr);
+
+	return Service->GetServiceState();
+}
+
 void* UTurboLinkGrpcManager::GetNextTag(TSharedPtr<GrpcContext> Context)
 {
 	void* nextTag = (void*)(++NextTag);
