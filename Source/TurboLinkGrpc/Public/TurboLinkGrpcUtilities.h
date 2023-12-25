@@ -65,6 +65,12 @@ public:
 		return A.Value == B.Value;
 	}
 
+	UFUNCTION(BlueprintPure, Category = "TurboLink", DisplayName = "Grpc Result To String")
+	static FString GrpcResultToString(const FGrpcResult& GrpcResult)
+	{
+		return GrpcResult.GetMessageString();
+	}
+
 	// Generate grpc message from json string
 	template<typename T>
 	static TSharedPtr<T> NewGrpcMessageFromJsonString(const FString& JsonString)
