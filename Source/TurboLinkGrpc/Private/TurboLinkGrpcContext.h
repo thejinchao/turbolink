@@ -198,7 +198,7 @@ protected:
 protected:
 	void OnRpcEventInternal(bool Ok, const void* EventTag, 
 		typename Super::FRpcCallbackFunc RpcCallbackFunc, 
-		typename FSendCompleteCallbackFunc SendCompleteCallbackFunc)
+		typename GrpcContext_Stream_Pong::FSendCompleteCallbackFunc SendCompleteCallbackFunc)
 	{
 		if (!Ok)
 		{
@@ -290,7 +290,7 @@ protected:
 protected:
 	void OnRpcEventInternal(bool Ok, const void* EventTag, 
 		typename Super::FRpcCallbackFunc RpcCallbackFunc,
-		typename FSendCompleteCallbackFunc SendCompleteCallbackFunc)
+		typename GrpcContext_Stream_Stream::FSendCompleteCallbackFunc SendCompleteCallbackFunc)
 	{
 		if (!Ok)
 		{
