@@ -13,6 +13,11 @@ UTurboLinkGrpcManager::UTurboLinkGrpcManager()
 
 UTurboLinkGrpcManager::~UTurboLinkGrpcManager()
 {
+	for (auto& CurrentService : WorkingService)
+	{
+		CurrentService.Value->Shutdown();
+	}
+
 	delete d;
 }
 
