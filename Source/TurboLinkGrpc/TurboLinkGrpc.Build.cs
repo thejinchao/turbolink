@@ -43,6 +43,7 @@ public class TurboLinkGrpc : ModuleRules
 			new string[] {
 				Path.Combine(ThirdPartyRoot(), "protobuf/include"),
 				Path.Combine(ThirdPartyRoot(), "grpc/include"),
+				Path.Combine(ThirdPartyRoot(), "re2/include"),
 				Path.Combine(ThirdPartyRoot(), "abseil/include")
 			}
 		);
