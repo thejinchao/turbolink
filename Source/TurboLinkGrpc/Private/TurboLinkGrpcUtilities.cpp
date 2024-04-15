@@ -3,6 +3,7 @@
 #include "TurboLinkGrpcModule.h"
 #include "Kismet/GameplayStatics.h"
 #include "Engine/Engine.h"
+#include "Engine/GameInstance.h"
 
 UTurboLinkGrpcManager* UTurboLinkGrpcUtilities::GetTurboLinkGrpcManager(UObject* WorldContextObject)
 {
