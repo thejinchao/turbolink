@@ -52,7 +52,7 @@ std::shared_ptr<UTurboLinkGrpcManager::Private::ServiceChannel> UTurboLinkGrpcMa
 	if (config->EnableServerSideTLS)
 	{
 		grpc::SslCredentialsOptions ssl_opts;
-		ssl_opts.pem_root_certs = TCHAR_TO_UTF8(*(config->GetServerRootCerts()));
+		ssl_opts.pem_root_certs = (const char*)StringCast<UTF8CHAR>(*(config->GetServerRootCerts())).Get();
 		channel->RpcChannel = grpc::CreateCustomChannel(EndPoint, grpc::SslCredentials(ssl_opts), args);
 	}
 	else

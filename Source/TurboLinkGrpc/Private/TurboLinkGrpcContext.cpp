@@ -116,7 +116,7 @@ EGrpcResultCode GrpcContext::ConvertStatusCode(const grpc::Status& RpcStatus)
 FGrpcResult GrpcContext::MakeGrpcResult(const grpc::Status& RpcStatus)
 {
 	EGrpcResultCode errorCode = ConvertStatusCode(RpcStatus);
-	FString message = UTF8_TO_TCHAR(RpcStatus.error_message().c_str());
+	FString message = StringCast<TCHAR>((const UTF8CHAR*)RpcStatus.error_message().c_str()).Get();
 
 	return FGrpcResult(errorCode, message);
 }

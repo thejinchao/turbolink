@@ -27,7 +27,10 @@ DEFINE_LOG_CATEGORY(LogTurboLink);
 
 void GrpcLogEntry(gpr_log_func_args* args)
 {
-	FString logMessage = FString::Printf(TEXT("grpc:(%s:%d)%s"), UTF8_TO_TCHAR(args->file), args->line, UTF8_TO_TCHAR(args->message));
+	FString logMessage = FString::Printf(TEXT("grpc:(%s:%d)%s"), 
+		StringCast<TCHAR>((const UTF8CHAR*)(args->file)).Get(),
+		args->line, 
+		StringCast<TCHAR>((const UTF8CHAR*)(args->message)).Get());
 
     ELogVerbosity::Type logSeverity = ELogVerbosity::Type::Log;
     switch (args->severity)
@@ -85,7 +88,7 @@ void FTurboLinkGrpcModule::RegisterAllGrpcMessageScriptStruct()
 	protobufDataBase->FindAllMessageNames(&msgNames);
 	for (size_t i = 0; i < msgNames.size(); i++)
 	{
-		FString rpcMessageName(UTF8_TO_TCHAR(msgNames[i].c_str()));
+		FString rpcMessageName(StringCast<TCHAR>((const UTF8CHAR*)msgNames[i].c_str()).Get());
 
 		TArray<FString> subNames;
 		rpcMessageName.ParseIntoArray(subNames, TEXT("."), true);

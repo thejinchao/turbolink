@@ -16,14 +16,14 @@ FString StructName::ToJsonString(bool bPrettyMode) const \
 	::google::protobuf::util::JsonPrintOptions options; \
 	options.add_whitespace=bPrettyMode; \
 	if(::google::protobuf::util::MessageToJsonString(message,  &json_string, options).ok()) { \
-		return FString(UTF8_TO_TCHAR(json_string.c_str())); \
+		return FString(StringCast<TCHAR>((const UTF8CHAR*)json_string.c_str()).Get()); \
 	} \
 	return FString(TEXT("")); \
 } \
 bool StructName::FromJsonString(const FString& JsonString) \
 { \
 	GrpcStructName grpcMessage; \
-	if(!::google::protobuf::util::JsonStringToMessage(TCHAR_TO_UTF8(*JsonString), &grpcMessage).ok()) return false; \
+	if(!::google::protobuf::util::JsonStringToMessage((const char*)StringCast<UTF8CHAR>(*JsonString).Get(), &grpcMessage).ok()) return false; \
 	GRPC_TO_TURBOLINK(&grpcMessage, this); \
 	return true; \
 }
