@@ -160,7 +160,7 @@ TSharedPtr<FGrpcMessageTag> UGrpcMessageTagsManager::FindGrpcMessageTagInArray(c
 	for (int32 iItem = 0; iItem < grpcMessageTags.Num(); ++iItem)
 	{
 		if (grpcMessageTags[iItem]->TagName == TagName && 
-			(!bWithScriptStructOnly || bWithScriptStructOnly && grpcMessageTags[iItem]->MessageScriptStruct != nullptr))
+			(!bWithScriptStructOnly || (bWithScriptStructOnly && grpcMessageTags[iItem]->MessageScriptStruct != nullptr)))
 		{
 			return grpcMessageTags[iItem];
 		}
