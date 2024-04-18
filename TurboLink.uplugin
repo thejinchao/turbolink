@@ -33,7 +33,8 @@
 			"LoadingPhase": "Default",
 			"WhitelistPlatforms": [
 				"Win64",
-				"Mac"
+				"Mac",
+				"Linux"
 			]
 		}
 	]
