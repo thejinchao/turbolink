@@ -197,8 +197,7 @@ protected:
 
 protected:
 	void OnRpcEventInternal(bool Ok, const void* EventTag, 
-		typename Super::FRpcCallbackFunc RpcCallbackFunc, 
-		typename GrpcContext_Stream_Pong::FSendCompleteCallbackFunc SendCompleteCallbackFunc)
+		typename Super::FRpcCallbackFunc RpcCallbackFunc, FSendCompleteCallbackFunc SendCompleteCallbackFunc)
 	{
 		if (!Ok)
 		{
@@ -283,14 +282,14 @@ class GrpcContext_Stream_Stream : public TGrpcContext<T, R>
 {
 	typedef TGrpcContext<T, R> Super;
 	typedef std::function<void()> FSendCompleteCallbackFunc;
+
 protected:
 	std::vector<S> SendQueue;
 	bool bCanSend = false;
 
 protected:
 	void OnRpcEventInternal(bool Ok, const void* EventTag, 
-		typename Super::FRpcCallbackFunc RpcCallbackFunc,
-		typename GrpcContext_Stream_Stream::FSendCompleteCallbackFunc SendCompleteCallbackFunc)
+		typename Super::FRpcCallbackFunc RpcCallbackFunc, FSendCompleteCallbackFunc SendCompleteCallbackFunc)
 	{
 		if (!Ok)
 		{
