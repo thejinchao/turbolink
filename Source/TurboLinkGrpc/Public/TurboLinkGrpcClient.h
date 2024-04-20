@@ -78,6 +78,15 @@ FORCEINLINE uint32 GetTypeHash(const FGrpcContextHandle& GrpcContextHandle)
 	return GrpcContextHandle.Value;
 }
 
+USTRUCT(BlueprintType)
+struct TURBOLINKGRPC_API FGrpcMetaData
+{
+	GENERATED_BODY()
+
+	UPROPERTY(BlueprintReadWrite, Category = TurboLink)
+	TMap<FString, FString> MetaData;
+};
+
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnContextStateChange, FGrpcContextHandle, Handle, EGrpcContextState, NewState);
 
 UCLASS(ClassGroup = TurboLink, BlueprintType, Abstract)
