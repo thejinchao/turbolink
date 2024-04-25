@@ -4,6 +4,7 @@
 #include "EdGraphUtilities.h"
 #include "SGraphPin.h"
 #include "SGrpcMessageTagGraphPin.h"
+#include "EdGraphSchema_K2.h"
 
 class FGrpcMessageTagGraphPinFactory : public FGraphPanelPinFactory
 {
