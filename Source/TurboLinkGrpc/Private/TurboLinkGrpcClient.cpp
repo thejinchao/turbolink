@@ -92,3 +92,12 @@ FString FGrpcResult::GetMessageString() const
 {
 	return FString::Printf(TEXT("%s:%s"), *GetCodeString(), *Message);
 }
+
+void UGrpcClient::AddMetaDataForContext(FGrpcContextHandle Handle, const FString& Key, const FString& Value)
+{
+	auto Context = GetContext(Handle);
+	if (Context->IsValid())
+	{
+		Context->Get()->RpcContext->AddMetadata(TCHAR_TO_UTF8(*Key), TCHAR_TO_UTF8(*Value));
+	}
+}
