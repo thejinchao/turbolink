@@ -108,6 +108,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = TurboLink)
 	virtual void Shutdown();
 
+	void AddMetaDataForContext(FGrpcContextHandle Handle, const FString& Key, const FString& Value);
+
 protected:
 	UGrpcService* Service;
 	TMap<FGrpcContextHandle, TSharedPtr<GrpcContext>> ContextMap;
