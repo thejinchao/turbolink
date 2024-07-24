@@ -16,7 +16,7 @@
 		{
 			"Name": "TurboLinkGrpc",
 			"Type": "Runtime",
-			"LoadingPhase": "Default",
+			"LoadingPhase": "PreDefault",
 			"WhitelistPlatforms": [
 				"Win64",
 				"Mac",
