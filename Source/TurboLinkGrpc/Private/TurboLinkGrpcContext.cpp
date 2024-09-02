@@ -28,12 +28,14 @@ void GrpcContext::UpdateState(EGrpcContextState NewState)
 		InitialTag = Service->TurboLinkManager->GetNextTag(AsShared());
 		WriteTag = Service->TurboLinkManager->GetNextTag(AsShared());
 		ReadTag = Service->TurboLinkManager->GetNextTag(AsShared());
+		FinishTag = Service->TurboLinkManager->GetNextTag(AsShared());
 	}
 	else if (ContextState == EGrpcContextState::Done)
 	{
 		Service->TurboLinkManager->RemoveTag(InitialTag);
 		Service->TurboLinkManager->RemoveTag(WriteTag);
 		Service->TurboLinkManager->RemoveTag(ReadTag);
+		Service->TurboLinkManager->RemoveTag(FinishTag);
 	}
 
 	if (Client->OnContextStateChange.IsBound())
