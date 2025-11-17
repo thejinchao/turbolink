@@ -1,7 +1,7 @@
 {
 	"FileVersion": 3,
 	"Version": 1,
-	"VersionName": "1.4.1",
+	"VersionName": "1.4.2",
 	"FriendlyName": "TurboLink",
 	"Description": "Enables Google gRPC work with Unreal Engine using C++ and Blueprint",
 	"Category": "Other",
