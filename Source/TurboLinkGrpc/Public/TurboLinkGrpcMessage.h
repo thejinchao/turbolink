@@ -39,8 +39,8 @@ struct FGrpcMessage
 };
 
 USTRUCT(BlueprintType, meta = (
-	HasNativeMake = "TurboLinkGrpc.TurboLinkGrpcUtilities.MakeUInt64", 
-	HasNativeBreak = "TurboLinkGrpc.TurboLinkGrpcUtilities.BreakUInt64"))
+	HasNativeMake = "/Script/TurboLinkGrpc.TurboLinkGrpcUtilities.MakeUInt64", 
+	HasNativeBreak = "/Script/TurboLinkGrpc.TurboLinkGrpcUtilities.BreakUInt64"))
 struct FUInt64
 {
 	GENERATED_BODY()
@@ -54,8 +54,8 @@ struct FUInt64
 };
 
 USTRUCT(BlueprintType, meta = (
-	HasNativeMake = "TurboLinkGrpc.TurboLinkGrpcUtilities.MakeDouble64",
-	HasNativeBreak = "TurboLinkGrpc.TurboLinkGrpcUtilities.BreakDouble64"))
+	HasNativeMake = "/Script/TurboLinkGrpc.TurboLinkGrpcUtilities.MakeDouble64",
+	HasNativeBreak = "/Script/TurboLinkGrpc.TurboLinkGrpcUtilities.BreakDouble64"))
 struct FDouble64
 {
 	GENERATED_BODY()
@@ -69,8 +69,8 @@ struct FDouble64
 };
 
 USTRUCT(BlueprintType, meta = (
-	HasNativeMake = "TurboLinkGrpc.TurboLinkGrpcUtilities.MakeUInt32", 
-	HasNativeBreak = "TurboLinkGrpc.TurboLinkGrpcUtilities.BreakUInt32"))
+	HasNativeMake = "/Script/TurboLinkGrpc.TurboLinkGrpcUtilities.MakeUInt32", 
+	HasNativeBreak = "/Script/TurboLinkGrpc.TurboLinkGrpcUtilities.BreakUInt32"))
 struct FUInt32
 {
 	GENERATED_BODY()
