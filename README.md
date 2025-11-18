@@ -17,7 +17,7 @@ TurboLink is an unreal engine plugin that enables [Google gRPC](https://grpc.io/
 
 ## Example
 ![example](https://github.com/thejinchao/turbolink/wiki/image/turbolink_example.png)  
-Two example projects can be downloaded, [simple.demo.zip](https://www.dropbox.com/scl/fi/8tuipginb7dx99a0e2i2k/turbolink.simple.demo.5.3.zip?rlkey=92rsjs1b29qnd72n2a4ct0nq2&dl=0) and [full.demo.zip](https://www.dropbox.com/scl/fi/6hqovw8ggo6kb49d9ugbd/turbolink.full.demo.5.3.zip?rlkey=93b2y34vtnjcqjz0zq43csk0l&dl=0)
+Two example projects can be downloaded, [simple.demo.56.zip](https://drive.google.com/file/d/11wlpCF6Q4jiyqfaqQTXwwf_bXzA7JyYW/view?usp=sharing) and [full.demo.56.zip](https://drive.google.com/file/d/1Nl5h3Nl1zEBoAL1qhpYes-Mf1aXNKRX9/view?usp=sharing)
 It is recommended that first download example projects and run them to understand how the plugin works. All demo projects include UE projects and server projects that can be run directly.  
 
 ### Run local server
