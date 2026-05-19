@@ -12,6 +12,7 @@ public class TurboLinkGrpc : ModuleRules
 	public TurboLinkGrpc(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
+		bUseUnity = false;
 		TurboLinkPlatformInstance = GetTurboLinkPlatformInstance(Target);
 
 		PublicDependencyModuleNames.AddRange(

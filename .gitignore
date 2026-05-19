@@ -1,0 +1,22 @@
+# Unreal Engine
+Binaries/
+Intermediate/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# JetBrains Rider / CLion
+.idea/
+
+# ThirdParty dependencies (large, downloadable separately)
+Source/ThirdParty/abseil/
+Source/ThirdParty/grpc/
+Source/ThirdParty/protobuf/
+Source/ThirdParty/re2/
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini

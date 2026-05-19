@@ -5,6 +5,14 @@
 #include "TurboLinkGrpcService.h"
 #include "TurboLinkGrpcClient.generated.h"
 
+// --- THE PERMANENT WIN32 MACRO SHIELD ---
+// Unreal Engine's deep Windows.h includes will attempt to redefine these gRPC methods.
+// We undefine them here at the root so all Turbolink classes are protected.
+#ifdef SendMessage
+#undef SendMessage
+#endif
+// ----------------------------------------
+
 class UGrpcService;
 class GrpcContext;
 
