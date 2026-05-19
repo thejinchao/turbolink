@@ -13,4 +13,6 @@
   #pragma warning (disable:4506) // no definition for inline function 'function'
   #pragma warning (disable:4996) // The compiler encountered a deprecated declaration.
   #pragma warning (disable:4125) // decimal digit terminates octal escape sequence
+  #pragma warning (disable:4800) // Implicit conversion from 'uint64_t' to bool
+  #pragma warning (disable:4996) // Deprecated declarations
 #endif

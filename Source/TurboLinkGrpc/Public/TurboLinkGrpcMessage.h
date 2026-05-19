@@ -94,3 +94,28 @@ struct FBytes
 	FBytes() {  }
 	FBytes(const uint8* _Value, int32 _Length) { Value.Append(_Value, _Length); }
 };
+
+FORCEINLINE uint32 GetTypeHash(const FUInt64& Key)
+{
+	return ::GetTypeHash(Key.Value);
+}
+
+FORCEINLINE uint32 GetTypeHash(const FDouble64& Key)
+{
+	return ::GetTypeHash(Key.Value);
+}
+
+FORCEINLINE uint32 GetTypeHash(const FUInt32& Key)
+{
+	return ::GetTypeHash(Key.Value);
+}
+
+FORCEINLINE uint32 GetTypeHash(const FBytes& Key)
+{
+	uint32 Hash = 0;
+	for (uint8 Byte : Key.Value)
+	{
+		Hash = HashCombine(Hash, ::GetTypeHash(Byte));
+	}
+	return Hash;
+}
